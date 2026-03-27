@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "198730254050",
+    "project_id": "controle-producao-chopp",
+    "storage_bucket": "controle-producao-chopp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198730254050:android:8ede4ff9bfdaebfdfe80bb",
+        "android_client_info": {
+          "package_name": "com.santos.valdomiro.gestaodeproducaodechoppandroidstudio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdlwTHeN_DCHMutK7qK6pmNEdeyBClrD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

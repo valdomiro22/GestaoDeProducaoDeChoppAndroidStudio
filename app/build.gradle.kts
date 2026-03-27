@@ -1,8 +1,13 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.hilt)                  // ← Hilt plugin
-    alias(libs.plugins.ksp)                   // ← KSP (substitui o kapt)
+
+    // Hilt
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+
+    // Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -42,6 +47,13 @@ android {
 }
 
 dependencies {
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.11.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-storage")
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
