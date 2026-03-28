@@ -23,6 +23,7 @@ fun OutlinedTextFieldSenha(
     onValueChange: (String) -> Unit,
     placeholder: String,
     isSenhaVisivel: Boolean,
+    isErro: Boolean,
     onVisibilityChange: () -> Unit,
     icone: @Composable (() -> Unit)? = null,
 ) {
@@ -36,6 +37,7 @@ fun OutlinedTextFieldSenha(
         shape = RoundedCornerShape(10.dp),
         visualTransformation = if (isSenhaVisivel) VisualTransformation.None else PasswordVisualTransformation(),
         leadingIcon = icone,
+        isError = isErro,
         trailingIcon = {
             IconButton(onClick = onVisibilityChange) {
                 Icon(
