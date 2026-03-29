@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alteraremail.AlterarEmailScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarnome.AlterarNomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarsenha.AlterarSenhaScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.cadastro.CadastroScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.configuracoesdeusuario.ConfiguracoesDeUsuarioScreen
@@ -29,6 +30,7 @@ fun AppNavigation(
             composable(Screen.ConfiguracoesDeUsuario.route) { ConfiguracoesDeUsuarioScreen() }
             composable(Screen.AlterarEmailScreen.route) { AlterarEmailScreen() }
             composable(Screen.AlterarSenhaScreen.route) { AlterarSenhaScreen() }
+            composable(Screen.AlterarNomeScreen.route) { AlterarNomeScreen() }
         }
     }
 }

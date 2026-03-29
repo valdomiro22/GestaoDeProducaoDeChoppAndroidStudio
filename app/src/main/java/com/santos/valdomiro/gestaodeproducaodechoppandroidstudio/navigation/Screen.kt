@@ -13,5 +13,6 @@ sealed class Screen(
     object ConfiguracoesDeUsuario : Screen("configuracoes-usuario")
     object AlterarEmailScreen : Screen("alterar-email")
     object AlterarSenhaScreen : Screen("alterar-senha")
+    object AlterarNomeScreen : Screen("alterar-nome")
 
 }

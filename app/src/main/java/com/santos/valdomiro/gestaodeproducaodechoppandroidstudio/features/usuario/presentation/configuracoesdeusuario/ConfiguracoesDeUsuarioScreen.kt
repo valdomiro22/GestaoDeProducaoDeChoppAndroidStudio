@@ -65,7 +65,7 @@ fun ConfiguracoesDeUsuarioScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = {},
+            onClick = { navController.navigate(Screen.AlterarNomeScreen.route) },
             nome = "Alterar Nome"
         )
         Spacer(modifier = Modifier.height(16.dp))

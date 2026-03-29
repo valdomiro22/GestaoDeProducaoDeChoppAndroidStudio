@@ -15,7 +15,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -32,8 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ButtomFillMaxWidth
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.OutlinedTextFieldEmail
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.CustomOutlinedTextField
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.OutlinedTextFieldSenha
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 
@@ -78,7 +76,7 @@ fun AlterarEmailScreen(
             Text("Digite o novo e-mail e confirme com sua senha atual para prosseguir com esta ação.")
             Spacer(modifier = Modifier.height(24.dp))
 
-            OutlinedTextFieldEmail(
+            CustomOutlinedTextField(
                 value = state.email,
                 onValueChange = viewModel::onEmailChanged,
                 isErro = state.erroEmail != null,

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.domain.usecase.UpdateNomeUsuarioUseCase
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.cadastro.CadastroUsuarioState
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.mappers.toUserMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AlterarNomeViewModel @Inject constructor(
-    updateNomeUsuarioUseCase: UpdateNomeUsuarioUseCase
+    private val updateNomeUsuarioUseCase: UpdateNomeUsuarioUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AlterarNomeState())
@@ -36,6 +37,16 @@ class AlterarNomeViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, erro = null ) }
 
+            val result = updateNomeUsuarioUseCase(
+                novoNome = currenteState.nome,
+                novoSobrenome = currenteState.sobrenome,
+            )
+
+            result.onSuccess {
+                _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+            }.onFailure { erro ->
+                _uiState.update { it.copy(isLoading = false, erro = erro.toUserMessage()) }
+            }
         }
     }
 
