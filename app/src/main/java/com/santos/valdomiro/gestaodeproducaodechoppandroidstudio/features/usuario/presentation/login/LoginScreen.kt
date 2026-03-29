@@ -36,6 +36,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.OutlinedTextFieldSenha
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
 
 @Composable
 fun LoginScreen(
@@ -43,7 +45,7 @@ fun LoginScreen(
 ) {
 
     val context = LocalContext.current
-//    val navController = LocalNavController.current
+    val navController = LocalNavController.current
 
     val scrollState = rememberScrollState()  // Para ScrollView
     val state by viewModel.uiState.collectAsState()
@@ -51,7 +53,9 @@ fun LoginScreen(
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
-            Toast.makeText(context, "Usuário logado", Toast.LENGTH_SHORT).show()
+            navController.navigate(Screen.ConfiguracoesDeUsuario.route) {
+                popUpTo(Screen.Login.route) { inclusive = true }
+            }
         }
     }
 
