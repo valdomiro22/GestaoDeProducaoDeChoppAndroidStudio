@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(
         if (!validar(currentState)) return
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, erro = null) }
+            _uiState.update { it.copy(isLoading = true, erro = null ) }
 
             val result = logarUsuarioUseCase(currentState.email, currentState.senha)
             result.onSuccess { uid ->
