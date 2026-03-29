@@ -34,9 +34,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.OutlinedTextFieldSenha
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components.OutlinedTextFieldSenha
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

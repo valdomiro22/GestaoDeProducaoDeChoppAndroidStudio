@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.CustomOutlinedTextField
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components.CustomOutlinedTextField
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 

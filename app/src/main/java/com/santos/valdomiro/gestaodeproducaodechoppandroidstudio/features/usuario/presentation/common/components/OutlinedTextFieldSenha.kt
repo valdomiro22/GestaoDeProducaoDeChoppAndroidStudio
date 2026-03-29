@@ -1,4 +1,4 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape

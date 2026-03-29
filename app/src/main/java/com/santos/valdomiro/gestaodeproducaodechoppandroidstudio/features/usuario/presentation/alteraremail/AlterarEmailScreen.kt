@@ -31,8 +31,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.CustomOutlinedTextField
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.OutlinedTextFieldSenha
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components.CustomOutlinedTextField
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components.OutlinedTextFieldSenha
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
