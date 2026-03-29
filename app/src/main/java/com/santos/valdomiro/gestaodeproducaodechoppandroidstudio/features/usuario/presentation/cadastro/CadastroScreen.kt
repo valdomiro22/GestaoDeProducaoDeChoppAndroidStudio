@@ -48,12 +48,6 @@ fun CadastroScreen(
 
     val scrollState = rememberScrollState()  // Para ScrollView
     val state by viewModel.uiState.collectAsState()
-
-    var nome by remember { mutableStateOf("") }
-    var sobrenome by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var senha by remember { mutableStateOf("") }
-    var confirmarSenha by remember { mutableStateOf("") }
     var mostrarSenha by remember { mutableStateOf(false) }
     var mostrarConfirmarSenha by remember { mutableStateOf(false) }
 

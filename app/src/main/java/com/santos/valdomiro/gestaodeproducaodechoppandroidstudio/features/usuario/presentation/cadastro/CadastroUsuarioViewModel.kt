@@ -56,16 +56,13 @@ class CadastroUsuarioViewModel @Inject constructor(
             )
 
             try {
-                Log.d(TAG, "cadastrar: Antes do useCase")
                 cadastrarUsuarioUseCase(
                     email = currentState.email,
                     password = currentState.senha,
                     usuario = usuario
                 )
                 _uiState.update { it.copy(isLoading = false, isSuccess = true) }
-                Log.d(TAG, "cadastrar: Depoid do useCase")
             } catch (e: Exception) {
-                Log.d(TAG, "cadastrar: Deu Erro")
                 _uiState.update {
                     it.copy(
                         isLoading = false,

@@ -1,4 +1,4 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.main
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
