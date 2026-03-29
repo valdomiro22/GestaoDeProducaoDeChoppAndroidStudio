@@ -1,8 +1,10 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alteraremail
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.deletarconta
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.domain.usecase.UpdateEmailUseCase
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.domain.usecase.DeleteUserUseCase
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alteraremail.AlterarEmailState
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.mappers.toUserMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,11 +13,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AlterarEmailViewModel @Inject constructor(
-    private val updateEmailUseCase: UpdateEmailUseCase
+class DeletarContaViewModel @Inject constructor(
+    private val deleteUserUseCase: DeleteUserUseCase
 ) : ViewModel() {
-
-    private val _uiState = MutableStateFlow(AlterarEmailState())
+    private val _uiState = MutableStateFlow(DeletarContaState())
     val uiState = _uiState.asStateFlow()
 
     fun onEmailChanged(value: String) {
@@ -26,30 +27,29 @@ class AlterarEmailViewModel @Inject constructor(
         _uiState.update { it.copy(senha = value, erroSenha = null) }
     }
 
-    fun alterar() {
-        val currentState = _uiState.value
+    fun deletar() {
+        val currenteState = _uiState.value
 
-        if (!validar(currentState)) return
+        if (!validar(currenteState)) return
 
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, erro = null) }
 
-            // TODO - corrijir, retirar o try catch
-            try {
-                updateEmailUseCase(newEmail = currentState.email, currentPassword = currentState.senha)
-                _uiState.update { it.copy(isLoading = false, isSuccess = true) }
-            } catch (e: Exception) {
+            val result = deleteUserUseCase(email = currenteState.email, password = currenteState.senha)
+
+            result.onSuccess {
                 _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        erro = e.message ?: "Erro ao alterar e-mail de usuario"
-                    )
+                    it.copy(isLoading = false, isSuccess = true)
+                }
+            }.onFailure { erro ->
+                _uiState.update {
+                    it.copy(isLoading = false, erro = erro.toUserMessage())
                 }
             }
         }
     }
 
-    private fun validar(state: AlterarEmailState): Boolean {
+    private fun validar(state: DeletarContaState): Boolean {
         var isValid = true
         var newState = state
 
@@ -72,5 +72,4 @@ class AlterarEmailViewModel @Inject constructor(
         _uiState.update { newState }
         return isValid;
     }
-
 }

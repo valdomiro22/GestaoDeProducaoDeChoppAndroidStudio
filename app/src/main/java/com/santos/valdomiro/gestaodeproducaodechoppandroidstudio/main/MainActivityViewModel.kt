@@ -21,7 +21,7 @@ class MainActivityViewModel @Inject constructor(
     var isLoading = mutableStateOf(true)
         private set
 
-    var startDestination by mutableStateOf(Screen.Login.route)
+    var startDestination by mutableStateOf(Screen.LoginScreen.route)
         private set
 
     init {
@@ -38,10 +38,10 @@ class MainActivityViewModel @Inject constructor(
                 startDestination = if (usuario != null) {
                     Screen.ConfiguracoesDeUsuario.route
                 } else {
-                    Screen.Login.route
+                    Screen.LoginScreen.route
                 }
             }.onFailure {
-                startDestination = Screen.Login.route
+                startDestination = Screen.LoginScreen.route
             }
 
             isLoading.value = false

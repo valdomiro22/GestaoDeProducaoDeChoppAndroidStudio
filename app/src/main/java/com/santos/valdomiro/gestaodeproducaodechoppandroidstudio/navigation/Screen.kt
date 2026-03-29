@@ -8,11 +8,12 @@ sealed class Screen(
     val icon: ImageVector? = null
 ) {
 
-    object Login : Screen("login")
-    object Cadastro : Screen("cadastro")
+    object LoginScreen : Screen("login")
+    object CadastroScreen : Screen("cadastro")
     object ConfiguracoesDeUsuario : Screen("configuracoes-usuario")
     object AlterarEmailScreen : Screen("alterar-email")
     object AlterarSenhaScreen : Screen("alterar-senha")
     object AlterarNomeScreen : Screen("alterar-nome")
+    object DeletarContaScreen : Screen("deletar-conta")
 
 }

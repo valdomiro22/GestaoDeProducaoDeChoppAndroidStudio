@@ -38,6 +38,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.OutlinedTextFieldSenha
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
 
 @Composable
 fun CadastroScreen(
@@ -54,7 +55,9 @@ fun CadastroScreen(
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
-            Toast.makeText(context, "Usuário cadastrado", Toast.LENGTH_SHORT).show()
+            navController.navigate(Screen.ConfiguracoesDeUsuario.route) {
+                popUpTo(Screen.CadastroScreen.route) { inclusive = true }
+            }
         }
     }
 

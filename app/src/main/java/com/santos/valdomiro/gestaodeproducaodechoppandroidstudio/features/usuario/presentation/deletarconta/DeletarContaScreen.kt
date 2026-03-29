@@ -1,4 +1,4 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarnome
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.deletarconta
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,29 +35,35 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.CustomOutlinedTextField
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.OutlinedTextFieldSenha
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlterarNomeScreen(
-    viewModel: AlterarNomeViewModel = hiltViewModel()
+fun DeletarContaScreen(
+    viewModel: DeletarContaViewModel = hiltViewModel()
 ) {
 
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val navController = LocalNavController.current
+    var mostrarSenha by remember { mutableStateOf(false) }
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
-            navController.popBackStack()
-            Toast.makeText(context, "Nome alterado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Conta deletada", Toast.LENGTH_SHORT).show()
+            navController.navigate(Screen.LoginScreen.route) {
+                popUpTo(0) { inclusive = true }  // Limpa tudo do histórico para o usuário não conseguir "voltar" para as configs
+
+            }
         }
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Alterar Nome") },
+                title = { Text("Deletar conta") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
@@ -79,25 +88,27 @@ fun AlterarNomeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("Digite o novo nome e o novo sobrenome para prosseguir com esta ação.")
+            Text("Digite seu email e senha para prosseguir com está ação.")
             Spacer(modifier = Modifier.height(24.dp))
 
             CustomOutlinedTextField(
-                value = state.nome,
-                onValueChange = viewModel::onNomeChanged,
-                isErro = state.erroNome != null,
-                placeholder = "Novo nome",
+                value = state.email,
+                onValueChange = viewModel::onEmailChanged,
+                isErro = state.erroEmail != null,
+                placeholder = "E-mail",
             )
-            if (state.erroNome != null) ErroComponent(state.erroNome!!)
+            if (state.erroEmail != null) ErroComponent(state.erroEmail!!)
             Spacer(modifier = Modifier.height(8.dp))
 
-            CustomOutlinedTextField(
-                value = state.sobrenome,
-                onValueChange = viewModel::onSobrenomeChanged,
-                isErro = state.erroSobrenome != null,
-                placeholder = "Novo sobrenome",
+            OutlinedTextFieldSenha(
+                value = state.senha,
+                onValueChange = viewModel::onSenhaChanged,
+                placeholder = "Senha",
+                isErro = state.erroSenha != null,
+                onVisibilityChange = { mostrarSenha = !mostrarSenha },
+                isSenhaVisivel = mostrarSenha,
             )
-            if (state.erroSobrenome != null) ErroComponent(state.erroSobrenome!!)
+            if (state.erroSenha != null) ErroComponent(state.erroSenha!!)
             if (state.erro != null) ErroComponent(state.erro!!)
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -106,7 +117,7 @@ fun AlterarNomeScreen(
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth()
                     .height(50.dp),
-                onClick = viewModel::alterar,
+                onClick = viewModel::deletar,
                 enabled = !state.isLoading,
             ) {
                 Text("Alterar")

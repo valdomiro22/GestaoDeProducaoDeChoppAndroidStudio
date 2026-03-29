@@ -1,6 +1,5 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.configuracoesdeusuario
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,7 +34,7 @@ fun ConfiguracoesDeUsuarioScreen(
     LaunchedEffect(uiState) {
         if (uiState is UiState.Success) {
             Toast.makeText(context, "Sessão encerrada", Toast.LENGTH_SHORT).show()
-            navController.navigate(Screen.Login.route) {
+            navController.navigate(Screen.LoginScreen.route) {
                 popUpTo(0) { inclusive = true }  // Limpa tudo do histórico para o usuário não conseguir "voltar" para as configs
 
             }
@@ -82,9 +81,8 @@ fun ConfiguracoesDeUsuarioScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-
         ButtomFillMaxWidth(
-            onClick = {},
+            onClick = { navController.navigate(Screen.DeletarContaScreen.route) },
             nome = "Excluir Conta"
         )
     }

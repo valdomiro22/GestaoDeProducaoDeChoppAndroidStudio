@@ -1,6 +1,5 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.login
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -54,7 +53,7 @@ fun LoginScreen(
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
             navController.navigate(Screen.ConfiguracoesDeUsuario.route) {
-                popUpTo(Screen.Login.route) { inclusive = true }
+                popUpTo(Screen.LoginScreen.route) { inclusive = true }
             }
         }
     }
@@ -65,6 +64,7 @@ fun LoginScreen(
             .imePadding()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(30.dp))
         Text(
@@ -115,12 +115,12 @@ fun LoginScreen(
             onClick = viewModel::logar,
             enabled = !state.isLoading,
         ) {
-            if (state.isLoading) {
-                CircularProgressIndicator(color = Color.White)
-            } else {
-                Text("Logar")
-            }
+            Text("Logar")
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        if (state.isLoading) CircularProgressIndicator(color = Color.Magenta)
+        
         Spacer(modifier = Modifier.weight(1f))
 
         Row(
@@ -130,7 +130,7 @@ fun LoginScreen(
             Text("Ainda não possui uma conta?")
             TextButton(
                 onClick = {
-                    Toast.makeText(context, "Cadastrar", Toast.LENGTH_SHORT).show()
+                    navController.navigate(Screen.CadastroScreen.route)
                 }
             ) {
                 Text("Cadastrar")
