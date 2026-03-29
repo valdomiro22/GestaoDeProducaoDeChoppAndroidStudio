@@ -15,124 +15,65 @@ class AuthRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource
 ) : AuthRepository {
 
+    private fun mapError(e: Throwable): AuthException {
+        return when (e) {
+            is FirebaseAuthUserCollisionException -> AuthException.EmailEmUso
+            is FirebaseAuthWeakPasswordException -> AuthException.SenhaFraca
+            is FirebaseAuthInvalidCredentialsException -> AuthException.CredenciaisInvalidas
+            is FirebaseAuthInvalidUserException -> AuthException.UsuarioNaoEncontrado
+            is FirebaseNetworkException -> AuthException.ErroDeRede
+            is FirebaseAuthRecentLoginRequiredException -> AuthException.ReautenticacaoNecessaria
+            else -> AuthException.Desconhecido(e)
+        }
+    }
+
     override suspend fun createUser(email: String, password: String): Result<String> {
-        return try {
-            val uid = authDataSource.createUser(email = email, password = password)
-            Result.success(uid)
-        } catch (e: FirebaseAuthUserCollisionException) {
-            Result.failure(AuthException.EmailEmUso)
-        } catch (e: FirebaseAuthWeakPasswordException) {
-            Result.failure(AuthException.SenhaFraca)
-        } catch (e: FirebaseAuthInvalidCredentialsException) {
-            Result.failure(AuthException.EmailInvalido)
-        } catch (e: FirebaseNetworkException) {
-            Result.failure(AuthException.ErroDeRede)
-        } catch (e: Exception) {
-            Result.failure(AuthException.Desconhecido(e))
+        val result = authDataSource.createUser(email, password)
+        return if (result.isSuccess) {
+            Result.success(result.getOrThrow())
+        } else {
+            Result.failure(mapError(result.exceptionOrNull()!!))
         }
     }
 
     override suspend fun login(email: String, password: String): Result<String> {
-        return try {
-            authDataSource.login(email = email, password = password)
-        } catch (e: FirebaseAuthInvalidCredentialsException) {
-            Result.failure(AuthException.CredenciaisInvalidas)
-        } catch (e: FirebaseAuthInvalidUserException) { // usuário não existe ou desativado
-            Result.failure(AuthException.UsuarioNaoEncontrado)
-        } catch (e: FirebaseNetworkException) {
-            Result.failure(AuthException.ErroDeRede)
-        } catch (e: Exception) {
-            Result.failure(AuthException.Desconhecido(e))
+        val result = authDataSource.login(email, password)
+        return if (result.isSuccess) {
+            Result.success(result.getOrThrow())
+        } else {
+            Result.failure(mapError(result.exceptionOrNull()!!))
         }
     }
 
     override fun signOut(): Result<Unit> {
-        return runCatching {
-            authDataSource.signOut()
-        }
+        return authDataSource.signOut()
     }
 
-    override fun getCurrentUserId(): String? {
-        return try {
-            authDataSource.getCurrentUserId()
-        } catch (e: Exception) {
-            throw Exception("Erro ao recuperar usuario logado")
-        }
-    }
+    override fun getCurrentUserId(): String? = authDataSource.getCurrentUserId()
 
     override suspend fun sendPasswordResetEmail(email: String): Result<Unit> {
-        return try {
-            authDataSource.sendPasswordResetEmail(email)
-            Result.success(Unit)
-        } catch (e: FirebaseAuthInvalidUserException) {
-            Result.failure(AuthException.UsuarioNaoEncontrado)
-        } catch (e: FirebaseAuthInvalidCredentialsException) {
-            Result.failure(AuthException.EmailInvalido)
-        } catch (e: FirebaseNetworkException) {
-            Result.failure(AuthException.ErroDeRede)
-        } catch (e: Exception) {
-            Result.failure(AuthException.Desconhecido(e))
-        }
+        val result = authDataSource.sendPasswordResetEmail(email)
+        return if (result.isSuccess) Result.success(Unit)
+        else Result.failure(mapError(result.exceptionOrNull()!!))
     }
 
     override suspend fun updateEmailAddress(newEmail: String, password: String): Result<Unit> {
-        return try {
-            authDataSource.updateEmailAddress(newEmail = newEmail, password = password)
-            Result.success(Unit)
-        } catch (e: FirebaseAuthInvalidCredentialsException) {
-            Result.failure(AuthException.CredenciaisInvalidas)
-        } catch (e: FirebaseAuthUserCollisionException) {
-            Result.failure(AuthException.EmailEmUso)
-        } catch (e: FirebaseAuthRecentLoginRequiredException) {
-            Result.failure(AuthException.ReautenticacaoNecessaria)
-        } catch (e: FirebaseNetworkException) {
-            Result.failure(AuthException.ErroDeRede)
-        } catch (e: Exception) {
-            Result.failure(AuthException.Desconhecido(e))
-        }
+        val result = authDataSource.updateEmailAddress(newEmail, password)
+        return if (result.isSuccess) Result.success(Unit)
+        else Result.failure(mapError(result.exceptionOrNull()!!))
     }
 
-    override suspend fun updatePassword(
-        newPassword: String,
-        currentPassword: String
-    ): Result<Unit> {
-        return try {
-            authDataSource.updatePassword(
-                newPassword = newPassword,
-                currentPassword = currentPassword
-            )
-            Result.success(Unit)
-        } catch (e: FirebaseAuthWeakPasswordException) {
-            Result.failure(AuthException.SenhaFraca)
-        } catch (e: FirebaseAuthInvalidCredentialsException) {
-            Result.failure(AuthException.CredenciaisInvalidas)
-        } catch (e: FirebaseAuthRecentLoginRequiredException) {
-            Result.failure(AuthException.ReautenticacaoNecessaria)
-        } catch (e: FirebaseNetworkException) {
-            Result.failure(AuthException.ErroDeRede)
-        } catch (e: Exception) {
-            Result.failure(AuthException.Desconhecido(e))
-        }
+    override suspend fun updatePassword(newPassword: String, currentPassword: String): Result<Unit> {
+        val result = authDataSource.updatePassword(newPassword, currentPassword)
+        return if (result.isSuccess) Result.success(Unit)
+        else Result.failure(mapError(result.exceptionOrNull()!!))
     }
 
     override suspend fun deleteUser(email: String, currentPassword: String): Result<Unit> {
-        return try {
-            authDataSource.deleteUser(email = email, currentPassword = currentPassword)
-            Result.success(Unit)
-        } catch (e: FirebaseAuthRecentLoginRequiredException) {
-            Result.failure(AuthException.ReautenticacaoNecessaria)
-        } catch (e: FirebaseNetworkException) {
-            Result.failure(AuthException.ErroDeRede)
-        } catch (e: Exception) {
-            Result.failure(AuthException.Desconhecido(e))
-        }
+        val result = authDataSource.deleteUser(email, currentPassword)
+        return if (result.isSuccess) Result.success(Unit)
+        else Result.failure(mapError(result.exceptionOrNull()!!))
     }
 
-    override suspend fun getCurrentUserEmail(): String? {
-        try {
-            return authDataSource.getCurrentUserEmail()
-        } catch (e: Exception) {
-            throw Exception("Erro ao recuperar email do usuario logado")
-        }
-    }
+    override suspend fun getCurrentUserEmail(): String? = authDataSource.getCurrentUserEmail()
 }

@@ -103,6 +103,7 @@ fun LoginScreen(
                 onVisibilityChange = { mostrarSenha = !mostrarSenha }
             )
             if (state.erroSenha != null) ErroComponent(state.erroSenha!!)
+            if (state.erro != null) ErroComponent(state.erro!!)
         }
         Spacer(modifier = Modifier.height(24.dp))
 

@@ -1,9 +1,8 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.login
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alteraremail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.AuthException
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.domain.usecase.LogarUsuarioUseCase
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.domain.usecase.UpdateEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,11 +11,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
-    private val logarUsuarioUseCase: LogarUsuarioUseCase
+class AlterarEmailViewModel @Inject constructor(
+    private val updateEmailUseCase: UpdateEmailUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(LoginState())
+    private val _uiState = MutableStateFlow(AlterarEmailState())
     val uiState = _uiState.asStateFlow()
 
     fun onEmailChanged(value: String) {
@@ -27,7 +26,7 @@ class LoginViewModel @Inject constructor(
         _uiState.update { it.copy(senha = value, erroSenha = null) }
     }
 
-    fun logar() {
+    fun alterar() {
         val currentState = _uiState.value
 
         if (!validar(currentState)) return
@@ -35,30 +34,21 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, erro = null) }
 
-            val result = logarUsuarioUseCase(currentState.email, currentState.senha)
-            result.onSuccess { uid ->
+            try {
+                updateEmailUseCase(newEmail = currentState.email, currentPassword = currentState.senha)
+                _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+            } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(isLoading = false, isSuccess = true)
-                }
-            }.onFailure { erro ->
-                val mensagemErro = quandoErro(erro)
-                _uiState.update {
-                    it.copy(isLoading = false, erro = mensagemErro)
+                    it.copy(
+                        isLoading = false,
+                        erro = e.message ?: "Erro ao alterar e-mail de usuario"
+                    )
                 }
             }
         }
     }
 
-    private fun quandoErro(e: Throwable): String {
-        return when (e) {
-            is AuthException.UsuarioNaoEncontrado -> "Este e-mail não está cadastrado."
-            is AuthException.CredenciaisInvalidas -> "E-mail ou senha incorretos."
-            is AuthException.ErroDeRede -> "Sem conexão com a internet."
-            else -> e.message ?: "Erro desconhecido ao realizar login"
-        }
-    }
-
-    private fun validar(state: LoginState): Boolean {
+    private fun validar(state: AlterarEmailState): Boolean {
         var isValid = true
         var newState = state
 
@@ -72,13 +62,14 @@ class LoginViewModel @Inject constructor(
 
         if (state.senha.isBlank()) {
             isValid = false
-            newState = newState.copy(erroSenha = "Digite a senha")
+            newState = newState.copy(erroSenha = "Digite uma senha")
         } else if (state.senha.length < 6) {
             isValid = false
-            newState = newState.copy(erroSenha = "Senha inválida")
+            newState = newState.copy(erroSenha = "A senha deve ter pelo menos 6 caracteres")
         }
 
         _uiState.update { newState }
         return isValid;
     }
+
 }

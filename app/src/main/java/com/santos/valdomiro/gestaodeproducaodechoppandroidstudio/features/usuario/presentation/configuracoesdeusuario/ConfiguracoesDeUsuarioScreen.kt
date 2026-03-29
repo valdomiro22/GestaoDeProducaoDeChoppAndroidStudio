@@ -71,7 +71,7 @@ fun ConfiguracoesDeUsuarioScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = {},
+            onClick = { navController.navigate(Screen.AlterarEmailScreen.route) },
             nome = "Alterar E-mail"
         )
         Spacer(modifier = Modifier.height(16.dp))
