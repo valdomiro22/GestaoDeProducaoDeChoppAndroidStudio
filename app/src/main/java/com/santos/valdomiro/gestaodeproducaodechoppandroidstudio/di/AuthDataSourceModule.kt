@@ -2,9 +2,9 @@ package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.di
 
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.AuthDataSource
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.UsuarioRemoteDataSource
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.remote.AuthDataSourceImpl
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.remote.StorageDataSourceImpl
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.remote.UsuarioRemoteDataSourceImpl
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.AuthDataSourceImpl
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.StorageDataSourceImpl
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.UsuarioRemoteDataSourceImpl
 import com.santos.valdomiro.gestaoproducaochopp.features.autenticacao.data.datasource.StorageDataSource
 import dagger.Binds
 import dagger.Module

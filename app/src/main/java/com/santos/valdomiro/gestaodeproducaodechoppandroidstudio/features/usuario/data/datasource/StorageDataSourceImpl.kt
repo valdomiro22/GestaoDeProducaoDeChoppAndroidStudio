@@ -1,4 +1,4 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.remote
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource
 
 import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage

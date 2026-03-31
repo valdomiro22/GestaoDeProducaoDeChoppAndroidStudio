@@ -1,2 +1,20 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.data.mapper
 
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.data.dto.BarrilDto
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
+
+/** Converte DTO para Entity */
+fun BarrilDto.toEntity() = BarrilEntity(
+    id = this.id,
+    nome = this.nome,
+    volume = this.volume,
+    isDescartavel = this.isDescartavel
+)
+
+/** Converte para Entity para DTO */
+fun BarrilDto.toDto() = BarrilDto(
+    id = this.id,
+    nome = this.nome,
+    volume = this.volume,
+    isDescartavel = this.isDescartavel
+)

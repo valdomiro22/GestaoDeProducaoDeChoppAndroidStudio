@@ -1,8 +1,8 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity
 
 data class BarrilEntity(
-    val id: String?,
-    val nome: String,
-    val volume: Int,
-    val isDescartavel: Boolean
+    val id: String? = null,
+    val nome: String = "",
+    val volume: Int = -1,
+    val isDescartavel: Boolean = false
 )

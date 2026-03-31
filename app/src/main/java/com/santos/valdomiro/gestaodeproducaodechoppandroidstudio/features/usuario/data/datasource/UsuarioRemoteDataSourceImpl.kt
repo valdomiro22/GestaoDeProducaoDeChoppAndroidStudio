@@ -1,8 +1,7 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.remote
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.UsuarioRemoteDataSource
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.dto.UsuarioDto
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
