@@ -1,4 +1,15 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.useCase
 
-class UpdateBarrilUseCase {
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.repository.BarrilRepository
+import javax.inject.Inject
+
+class UpdateBarrilUseCase @Inject constructor(
+    private val barrilRepository: BarrilRepository
+) {
+
+    suspend operator fun invoke(id: String, barril: BarrilEntity): Result<Unit> {
+        return barrilRepository.updateBarril(id, barril)
+    }
+
 }

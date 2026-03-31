@@ -1,5 +1,7 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.di
 
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.data.datasource.BarrilRemoteDataSource
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.data.datasource.BarrilRemoteDataSourceImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.AuthDataSource
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.UsuarioRemoteDataSource
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.AuthDataSourceImpl
@@ -22,9 +24,14 @@ abstract class AuthDataSourceModule {
 
     @Binds
     @Singleton
+    abstract fun bindStorageDataSource(impl: StorageDataSourceImpl): StorageDataSource
+
+    @Binds
+    @Singleton
     abstract fun bindUsuarioRemoteDataSource(impl: UsuarioRemoteDataSourceImpl): UsuarioRemoteDataSource
 
     @Binds
     @Singleton
-    abstract fun bindStorageDataSource(impl: StorageDataSourceImpl): StorageDataSource
+    abstract fun bindBarrilRemoteDataSource(impl: BarrilRemoteDataSourceImpl): BarrilRemoteDataSource
+
 }

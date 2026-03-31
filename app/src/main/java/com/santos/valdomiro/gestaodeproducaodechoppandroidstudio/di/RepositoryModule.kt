@@ -1,5 +1,7 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.di
 
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.data.repository.BarrilRepositoryImpl
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.repository.BarrilRepository
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.repository.AuthRepositoryImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.repository.StorageRepositoryImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.repository.UsuarioFirestoreFirestoreRepositoryImpl
@@ -24,13 +26,20 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
+    abstract fun bindStorageRepository(
+        storageRepositoryImpl: StorageRepositoryImpl
+    ): StorageRepository
+
+    @Binds
+    @Singleton
     abstract fun bindUsuarioRepository(
         usuarioFirestoreRepositoryImpl: UsuarioFirestoreFirestoreRepositoryImpl
     ): UsuarioFirestoreRepository
 
     @Binds
     @Singleton
-    abstract fun bindStorageRepository(
-        storageRepositoryImpl: StorageRepositoryImpl
-    ): StorageRepository
+    abstract fun bindBarrilRepository(
+        barrilRepositoryImpl: BarrilRepositoryImpl
+    ): BarrilRepository
+
 }
