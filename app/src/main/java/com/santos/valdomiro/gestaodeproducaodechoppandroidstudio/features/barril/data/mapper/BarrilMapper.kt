@@ -12,7 +12,7 @@ fun BarrilDto.toEntity() = BarrilEntity(
 )
 
 /** Converte para Entity para DTO */
-fun BarrilDto.toDto() = BarrilDto(
+fun BarrilEntity.toDto() = BarrilDto(
     id = this.id,
     nome = this.nome,
     volume = this.volume,
