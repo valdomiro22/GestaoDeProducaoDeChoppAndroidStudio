@@ -28,8 +28,8 @@ fun ConfiguracoesDeUsuarioScreen(
 ) {
 
     val context = LocalContext.current
-    val uiState by viewModel.uiState.collectAsState()
     val navController = LocalNavController.current
+    val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(uiState) {
         if (uiState is UiState.Success) {

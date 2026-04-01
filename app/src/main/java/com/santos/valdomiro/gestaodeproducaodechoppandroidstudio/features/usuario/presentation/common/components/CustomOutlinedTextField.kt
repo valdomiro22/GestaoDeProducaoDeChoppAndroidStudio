@@ -18,6 +18,7 @@ fun CustomOutlinedTextField(
     placeholder: String,
     isErro: Boolean,
     icone: @Composable (() -> Unit)? = null,
+    inputType: KeyboardType = KeyboardType.Text
 ) {
     OutlinedTextField(
         value = value,
@@ -25,7 +26,7 @@ fun CustomOutlinedTextField(
         onValueChange = onValueChange,
         placeholder = { Text(placeholder) },
         modifier = Modifier.fillMaxWidth(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(keyboardType = inputType),
         shape = RoundedCornerShape(10.dp),
         leadingIcon = icone,
         isError = isErro,
