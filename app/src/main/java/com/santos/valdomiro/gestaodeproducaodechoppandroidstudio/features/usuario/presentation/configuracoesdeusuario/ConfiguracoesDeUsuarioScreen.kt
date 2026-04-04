@@ -85,5 +85,10 @@ fun ConfiguracoesDeUsuarioScreen(
             onClick = { navController.navigate(Screen.DeletarContaScreen.route) },
             nome = "Excluir Conta"
         )
+
+        ButtomFillMaxWidth(
+            onClick = { navController.navigate(Screen.DeletarContaScreen.route) },
+            nome = "Lista de barris"
+        )
     }
 }

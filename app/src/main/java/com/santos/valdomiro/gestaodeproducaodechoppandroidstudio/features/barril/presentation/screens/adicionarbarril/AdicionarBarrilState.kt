@@ -1,4 +1,4 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.adicionarbarril
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.adicionarbarril
 
 data class AdicionarBarrilState(
     val nome: String = "",

@@ -17,5 +17,6 @@ sealed class Screen(
     object DeletarContaScreen : Screen("deletar-conta")
     object AdicionarBarrilScreen : Screen("adicionar-barril")
     object HomeScreen : Screen("home")
+    object ListaDeBarris : Screen("lista-barris")
 
 }

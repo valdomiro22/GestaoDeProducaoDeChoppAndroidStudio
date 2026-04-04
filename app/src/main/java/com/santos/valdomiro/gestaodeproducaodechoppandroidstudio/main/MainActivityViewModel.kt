@@ -21,6 +21,7 @@ class MainActivityViewModel @Inject constructor(
     var isLoading = mutableStateOf(true)
         private set
 
+//    var startDestination by mutableStateOf(Screen.HomeScreen.route)
     var startDestination by mutableStateOf(Screen.HomeScreen.route)
         private set
 

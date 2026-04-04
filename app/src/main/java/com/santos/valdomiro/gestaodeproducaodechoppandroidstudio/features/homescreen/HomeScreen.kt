@@ -2,7 +2,9 @@ package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.homes
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,6 +32,12 @@ fun HomeScreen() {
         ButtomFillMaxWidth(
             onClick = { navController.navigate(Screen.AdicionarBarrilScreen.route) },
             nome = "Adicionar Barril"
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        ButtomFillMaxWidth(
+            onClick = { navController.navigate(Screen.ListaDeBarris.route) },
+            nome = "Lista de barris"
         )
     }
 }
