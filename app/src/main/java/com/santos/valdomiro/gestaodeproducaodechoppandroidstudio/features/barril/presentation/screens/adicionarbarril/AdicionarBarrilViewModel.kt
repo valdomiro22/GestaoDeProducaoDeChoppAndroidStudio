@@ -25,7 +25,6 @@ class AdicionarBarrilViewModel @Inject constructor(
     }
 
     fun onVolumeChanged(value: String) {
-        // Opcional: filtro para aceitar só números (melhor UX)
         val filtered = value.filter { it.isDigit() }
         _uiState.update { it.copy(volume = filtered, erroVolume = null) }
     }
@@ -63,7 +62,7 @@ class AdicionarBarrilViewModel @Inject constructor(
             val barril = BarrilEntity(
                 nome = currenteState.nome,
                 volume = volumeInt,
-                isDescartavel = currenteState.isDescartavel
+                descartavel = currenteState.isDescartavel
             )
 
             val result = insertBarrilUseCase(barril = barril)

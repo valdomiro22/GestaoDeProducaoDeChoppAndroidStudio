@@ -4,5 +4,5 @@ data class BarrilEntity(
     val id: String? = null,
     val nome: String = "",
     val volume: Int = -1,
-    val isDescartavel: Boolean = false
+    val descartavel: Boolean = false
 )

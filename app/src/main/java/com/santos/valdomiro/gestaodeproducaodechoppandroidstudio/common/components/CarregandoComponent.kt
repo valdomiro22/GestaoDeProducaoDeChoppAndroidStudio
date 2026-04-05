@@ -1,6 +1,5 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components
 
-import android.provider.CalendarContract
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,16 +12,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CarregandoComponent(
+    modifier: Modifier = Modifier,
     cor: Color = Color.White
 ) {
-
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(top = 16.dp),
         contentAlignment = Alignment.Center
     ) {
-        CarregandoComponent(cor = Color.Magenta)
+        CircularProgressIndicator(color = cor)
     }
-
 }

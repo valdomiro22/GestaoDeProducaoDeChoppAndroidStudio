@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.useCase.DeleteBarrilUseCase
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.useCase.GetListaBarrisUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ListaBarrisViewModel @Inject constructor(
     private val getListaBarrisUseCase: GetListaBarrisUseCase,
-    private val deleteBarrisUseCase: GetListaBarrisUseCase
+    private val deleteBarrisUseCase: DeleteBarrilUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<BarrilEntity>>>(UiState.Loading)
@@ -35,20 +36,19 @@ class ListaBarrisViewModel @Inject constructor(
         }
     }
 
-//    fun deleteBarril(id: String) {
-//        viewModelScope.launch {
-//            _uiState.value = UiState.Loading   // ou um loading parcial se preferir
-//
-//            deleteBarrisUseCase(id)
-//                .onSuccess {
-//                    getAll()                   // recarrega a lista após deletar
-//                    // ou atualiza a lista localmente (mais eficiente)
-//                }
-//                .onFailure { exception ->
-//                    _uiState.value = UiState.Error(
-//                        exception.message ?: "Erro ao excluir barril"
-//                    )
-//                }
-//        }
-//    }
+    fun deleteBarril(id: String) {
+        viewModelScope.launch {
+            _uiState.value = UiState.Loading
+
+            deleteBarrisUseCase(id)
+                .onSuccess {
+                    getAll()  // recarrega a lista após deletar
+                }
+                .onFailure { exception ->
+                    _uiState.value = UiState.Error(
+                        exception.message ?: "Erro ao excluir barril"
+                    )
+                }
+        }
+    }
 }

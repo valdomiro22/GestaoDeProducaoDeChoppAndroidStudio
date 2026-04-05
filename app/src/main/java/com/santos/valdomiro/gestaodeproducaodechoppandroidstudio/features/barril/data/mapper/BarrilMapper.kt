@@ -8,7 +8,7 @@ fun BarrilDto.toEntity() = BarrilEntity(
     id = this.id,
     nome = this.nome,
     volume = this.volume,
-    isDescartavel = this.isDescartavel
+    descartavel = this.descartavel
 )
 
 /** Converte para Entity para DTO */
@@ -16,5 +16,5 @@ fun BarrilEntity.toDto() = BarrilDto(
     id = this.id,
     nome = this.nome,
     volume = this.volume,
-    isDescartavel = this.isDescartavel
+    descartavel = this.descartavel
 )
