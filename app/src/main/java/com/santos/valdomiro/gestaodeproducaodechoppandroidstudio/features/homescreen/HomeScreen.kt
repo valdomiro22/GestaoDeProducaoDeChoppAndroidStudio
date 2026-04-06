@@ -29,15 +29,17 @@ fun HomeScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ButtomFillMaxWidth(
-            onClick = { navController.navigate(Screen.AdicionarBarrilScreen.route) },
-            nome = "Adicionar Barril"
-        )
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
             onClick = { navController.navigate(Screen.ListaDeBarrisScreen.route) },
             nome = "Lista de barris"
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        ButtomFillMaxWidth(
+            onClick = {  },
+            nome = "Lista de produtos"
         )
     }
 }
