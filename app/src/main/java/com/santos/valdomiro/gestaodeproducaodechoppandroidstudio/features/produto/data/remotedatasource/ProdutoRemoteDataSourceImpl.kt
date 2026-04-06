@@ -1,4 +1,4 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.data.datasource
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.data.remotedatasource
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -6,65 +6,68 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptio
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.ErroBancoDadosDesconhecidoException
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.NaoEncontradoException
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.ServicoIndisponivelException
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.data.dto.BarrilDto
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.data.dto.ProdutoDto
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class BarrilRemoteDataSourceImpl @Inject constructor(
+class ProdutoRemoteDataSourceImpl @Inject constructor(
     private val firestore: FirebaseFirestore
-) : BarrilRemoteDataSource {
+) : ProdutoRemoteDataSource {
 
-    private val barrilCollection = "barris"
+    private val produtoCollection = "produto"
 
-    override suspend fun insertBarril(barril: BarrilDto) {
+    override suspend fun insertProduto(produto: ProdutoDto) {
         mapearExecution {
-            if (barril.id.isNullOrEmpty()) {
-                throw IllegalArgumentException("Erro: Tentativa de salvar Barril sem ID")
+            if (produto.id.isNullOrEmpty()) {
+                throw IllegalArgumentException("Erro: Tentativa de salvar Produto sem ID")
             }
 
-            firestore.collection(barrilCollection)
-                .document(barril.id)
-                .set(barril)
+            firestore.collection(produtoCollection)
+                .document(produto.id)
+                .set(produto)
                 .await()
         }
     }
 
-    override suspend fun updateBarril(id: String, barril: BarrilDto) {
+    override suspend fun updateProduto(
+        id: String,
+        produto: ProdutoDto
+    ) {
         mapearExecution {
-            firestore.collection(barrilCollection)
+            firestore.collection(produtoCollection)
                 .document(id)
-                .update(barril.toMap())
+                .update(produto.toMap())
                 .await()
         }
     }
 
-    override suspend fun getBarril(id: String): BarrilDto? {
+    override suspend fun getProduto(id: String): ProdutoDto? {
         return mapearExecution {
-            val snapshot = firestore.collection(barrilCollection)
+            val snapshot = firestore.collection(produtoCollection)
                 .document(id)
                 .get()
                 .await()
 
-            snapshot.toObject(BarrilDto::class.java)
+            snapshot.toObject(ProdutoDto::class.java)
         }
     }
 
-    override suspend fun deleteBarril(id: String) {
+    override suspend fun deleteProduto(id: String) {
         mapearExecution {
-            firestore.collection(barrilCollection)
+            firestore.collection(produtoCollection)
                 .document(id)
                 .delete()
                 .await()
         }
     }
 
-    override suspend fun getAllBarris(): List<BarrilDto> {
+    override suspend fun getAllProdutos(): List<ProdutoDto> {
         return mapearExecution {
-            val snapshot = firestore.collection(barrilCollection)
+            val snapshot = firestore.collection(produtoCollection)
                 .get()
                 .await()
 
-            snapshot.documents.mapNotNull { it.toObject(BarrilDto::class.java) }
+            snapshot.documents.mapNotNull { it.toObject(ProdutoDto::class.java) }
         }
     }
 
