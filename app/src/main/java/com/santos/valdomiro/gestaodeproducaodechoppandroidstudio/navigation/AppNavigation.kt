@@ -4,9 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.adicionarbarril.AdicionarBarrilScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.atualizarbarril.AtualizarBarrilScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.listadebarris.ListaBarrisScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.homescreen.HomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alteraremail.AlterarEmailScreen
@@ -38,7 +41,37 @@ fun AppNavigation(
             composable(Screen.DeletarContaScreen.route) { DeletarContaScreen() }
             composable(Screen.AdicionarBarrilScreen.route) { AdicionarBarrilScreen() }
             composable(Screen.HomeScreen.route) { HomeScreen() }
-            composable(Screen.ListaDeBarris.route) { ListaBarrisScreen() }
+            composable(Screen.ListaDeBarrisScreen.route) { ListaBarrisScreen() }
+
+//            // Atualizar Barril
+//            composable(
+//                route = Screen.AtualizarBarrilScreen("dummy").route,
+//                arguments = listOf(
+//                    navArgument("barrilId") {
+//                        type = NavType.StringType
+//                    }
+//                )
+//            ) { backStackEntry ->
+//                val barrilId = backStackEntry.arguments?.getString("barrilId")
+//                    ?: return@composable
+//
+//                AtualizarBarrilScreen(barrilId = barrilId)
+//            }
+
+            // Atualizar Barril
+            composable(
+                // A rota DEVE ter o placeholder {barrilId} explicitamente
+                route = "atualizar_barril/{barrilId}",
+                arguments = listOf(
+                    navArgument("barrilId") {
+                        type = NavType.StringType
+                    }
+                )
+            ) { backStackEntry ->
+                val barrilId = backStackEntry.arguments?.getString("barrilId") ?: return@composable
+
+                AtualizarBarrilScreen(barrilId = barrilId)
+            }
         }
     }
 }

@@ -30,7 +30,7 @@ class AdicionarBarrilViewModel @Inject constructor(
     }
 
     fun onDescartavelChanged(value: Boolean) {
-        _uiState.update { it.copy(isDescartavel = value) }
+        _uiState.update { it.copy(descartavel = value) }
     }
 
     fun inserir() {
@@ -62,7 +62,7 @@ class AdicionarBarrilViewModel @Inject constructor(
             val barril = BarrilEntity(
                 nome = currenteState.nome,
                 volume = volumeInt,
-                descartavel = currenteState.isDescartavel
+                descartavel = currenteState.descartavel
             )
 
             val result = insertBarrilUseCase(barril = barril)

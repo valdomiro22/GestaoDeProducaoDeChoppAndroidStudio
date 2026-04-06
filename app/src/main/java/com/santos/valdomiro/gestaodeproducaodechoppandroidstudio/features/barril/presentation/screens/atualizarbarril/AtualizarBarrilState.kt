@@ -1,6 +1,6 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.adicionarbarril
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.atualizarbarril
 
-data class AdicionarBarrilState(
+data class AtualizarBarrilState(
     val nome: String = "",
     val volume: String = "",
     val descartavel: Boolean = false,

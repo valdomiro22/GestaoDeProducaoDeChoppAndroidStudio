@@ -36,7 +36,7 @@ fun HomeScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = { navController.navigate(Screen.ListaDeBarris.route) },
+            onClick = { navController.navigate(Screen.ListaDeBarrisScreen.route) },
             nome = "Lista de barris"
         )
     }

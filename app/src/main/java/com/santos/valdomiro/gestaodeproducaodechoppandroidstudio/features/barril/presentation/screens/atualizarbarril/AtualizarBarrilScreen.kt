@@ -1,5 +1,6 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.adicionarbarril
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.atualizarbarril
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ButtomFillMaxWidth
@@ -34,21 +34,27 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.componen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.LinhaTextoComSwitch
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components.CustomOutlinedTextField
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AdicionarBarrilScreen(
-    viewModel: AdicionarBarrilViewModel = hiltViewModel()
+fun AtualizarBarrilScreen(
+    barrilId: String,
+    viewModel: AtualizarBarrilViewModel = hiltViewModel(),
 ) {
 
     val state by viewModel.uiState.collectAsState()
     val navController = LocalNavController.current
     val context = LocalContext.current
 
+    LaunchedEffect(barrilId) {
+        viewModel.carregarBarril(barrilId)
+    }
+
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
             navController.popBackStack()
-            Toast.makeText(context, "Barril salvo", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Barril atualizado", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -109,18 +115,18 @@ fun AdicionarBarrilScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             ButtomFillMaxWidth(
-                onClick = viewModel::inserir,
+                onClick = { viewModel.atualizar() },
                 nome = "Salvar"
             )
 
             if (state.isLoading) CarregandoComponent(cor = Color.Magenta)
 
+            // Adicione isso temporariamente na sua Column para ver se está dando erro na busca
+            if (state.erro != null) {
+                Text(text = "ID: $barrilId  -> Erro ao buscar: ${state.erro}", color = Color.Red)
+                Log.d(TAG, "AtualizarBarrilScreen: ID: $barrilId  -> Erro ao buscar: ${state.erro}")
+            }
         }
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AdicionarBarrilScreen()
+    }
 }

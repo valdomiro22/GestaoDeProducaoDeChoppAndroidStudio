@@ -17,6 +17,13 @@ sealed class Screen(
     object DeletarContaScreen : Screen("deletar-conta")
     object AdicionarBarrilScreen : Screen("adicionar-barril")
     object HomeScreen : Screen("home")
-    object ListaDeBarris : Screen("lista-barris")
+    object ListaDeBarrisScreen : Screen("lista-barris")
+//    data class AtualizarBarrilScreen(val barrilId: String) : Screen("editar_barril/{barrilId}") {
+//        fun createRoute(id: String) = "editar_barril/$id"
+//    }
+object AtualizarBarril : Screen("atualizar_barril/{barrilId}") {
+    // Uma função ajudante para montar a rota na hora do clique
+    fun criarRota(id: String) = "atualizar_barril/$id"
+}
 
 }

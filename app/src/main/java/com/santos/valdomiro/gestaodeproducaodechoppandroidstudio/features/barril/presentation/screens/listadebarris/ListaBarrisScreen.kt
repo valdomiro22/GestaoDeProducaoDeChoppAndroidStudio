@@ -85,10 +85,12 @@ fun ListaBarrisScreen(
 
         when {
             state.isLoading -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(top = 16.dp), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .padding(top = 16.dp), contentAlignment = Alignment.Center
+                ) {
                     CircularProgressIndicator()
                 }
             }
@@ -136,7 +138,8 @@ fun ListaBarrisScreen(
                                     barril = barril,
                                     onDeletarClick = { viewModel.deleteBarril(barril.id!!) },
                                     onEditarClick = {
-                                        Toast.makeText(context, "Editar", Toast.LENGTH_SHORT).show() }
+                                        navController.navigate(Screen.AtualizarBarril.criarRota(barril.id!!))
+                                    }
                                 )
                             }
                         }
