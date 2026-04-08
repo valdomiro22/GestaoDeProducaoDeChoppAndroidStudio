@@ -25,4 +25,8 @@ sealed class Route(
         fun criarRota(id: String) = "atualizar_barril/$id"  // Uma função ajudante para montar a rota na hora do clique
     }
 
+    object AtualizarProdutoRoute : Route("atualizar_produto/{produtoId}") {
+        fun criarRota(id: String) = "atualizar_produto/$id"  // Uma função ajudante para montar a rota na hora do clique
+    }
+
 }

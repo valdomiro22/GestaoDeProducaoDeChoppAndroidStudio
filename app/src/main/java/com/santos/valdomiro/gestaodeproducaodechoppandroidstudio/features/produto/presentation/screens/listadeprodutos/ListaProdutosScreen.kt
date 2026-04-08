@@ -33,6 +33,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.componen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.domain.entity.ProdutoEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.components.ItemListaProduto
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.atualizarproduto.AtualizarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 
@@ -64,7 +65,7 @@ fun ListaProdutosScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Route.AdicionarBarrilRoute.route)
+                    navController.navigate(Route.AdicionarProdutoRoute.route)
                 },
                 containerColor = Color(0xFF6450A1),
                 contentColor = Color.White
@@ -129,7 +130,13 @@ fun ListaProdutosScreen(
                                 ItemListaProduto(
                                     produto = produto,
                                     onDeletarClick = { viewModel.deleteProduto(produto.id!!) },
-                                    onEditarClick = {}
+                                    onEditarClick = {
+                                        navController.navigate(
+                                            Route.AtualizarProdutoRoute.criarRota(
+                                                produto.id!!
+                                            )
+                                        )
+                                    }
                                 )
                             }
                         }

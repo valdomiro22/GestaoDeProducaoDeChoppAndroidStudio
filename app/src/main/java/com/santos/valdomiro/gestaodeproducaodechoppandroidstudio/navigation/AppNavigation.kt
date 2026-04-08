@@ -13,6 +13,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.listadebarris.ListaBarrisScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.homescreen.HomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto.AdicionarProdutoScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.atualizarproduto.AtualizarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.listadeprodutos.ListaProdutosScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alteraremail.AlterarEmailScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarnome.AlterarNomeScreen
@@ -58,8 +59,21 @@ fun AppNavigation(
                 )
             ) { backStackEntry ->
                 val barrilId = backStackEntry.arguments?.getString("barrilId") ?: return@composable
-
                 AtualizarBarrilScreen(barrilId = barrilId)
+            }
+
+            // Atualizar Produto
+            composable(
+                // A rota DEVE ter o placeholder {barrilId} explicitamente
+                route = "atualizar_produto/{produtoId}",
+                arguments = listOf(
+                    navArgument("produtoId") {
+                        type = NavType.StringType
+                    }
+                )
+            ) { backStackEntry ->
+                val produtoId = backStackEntry.arguments?.getString("produtoId") ?: return@composable
+                AtualizarProdutoScreen(produtoId = produtoId)
             }
         }
     }
