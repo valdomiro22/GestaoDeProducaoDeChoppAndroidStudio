@@ -34,4 +34,8 @@ abstract class AuthDataSourceModule {
     @Singleton
     abstract fun bindBarrilRemoteDataSource(impl: BarrilRemoteDataSourceImpl): BarrilRemoteDataSource
 
+    @Binds
+    @Singleton
+    abstract fun bindProdutoRemoteDataSource(impl: BarrilRemoteDataSourceImpl): BarrilRemoteDataSource
+
 }
