@@ -12,6 +12,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.atualizarbarril.AtualizarBarrilScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.listadebarris.ListaBarrisScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.homescreen.HomeScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto.AdicionarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alteraremail.AlterarEmailScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarnome.AlterarNomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarsenha.AlterarSenhaScreen
@@ -40,6 +41,7 @@ fun AppNavigation(
             composable(Screen.AlterarNomeScreen.route) { AlterarNomeScreen() }
             composable(Screen.DeletarContaScreen.route) { DeletarContaScreen() }
             composable(Screen.AdicionarBarrilScreen.route) { AdicionarBarrilScreen() }
+            composable(Screen.AdicionarProdutoScreen.route) { AdicionarProdutoScreen() }
             composable(Screen.HomeScreen.route) { HomeScreen() }
             composable(Screen.ListaDeBarrisScreen.route) { ListaBarrisScreen() }
 

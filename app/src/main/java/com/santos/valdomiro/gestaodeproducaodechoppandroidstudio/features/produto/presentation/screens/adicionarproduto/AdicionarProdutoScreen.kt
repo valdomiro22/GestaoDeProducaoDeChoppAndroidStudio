@@ -1,8 +1,6 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.atualizarbarril
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto
 
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -26,35 +24,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ButtomFillMaxWidth
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.CarregandoComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.LinhaTextoComSwitch
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components.CustomOutlinedTextField
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AtualizarBarrilScreen(
-    barrilId: String,
-    viewModel: AtualizarBarrilViewModel = hiltViewModel(),
+fun AdicionarProdutoScreen(
+    viewModel: AdicionarProdutoViewModel = hiltViewModel()
 ) {
 
     val state by viewModel.uiState.collectAsState()
     val navController = LocalNavController.current
     val context = LocalContext.current
 
-    LaunchedEffect(barrilId) {
-        viewModel.carregarBarril(barrilId)
-    }
-
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
             navController.popBackStack()
-            Toast.makeText(context, "Barril atualizado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Produto salvo", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -80,48 +72,45 @@ fun AtualizarBarrilScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.Top,
+                .padding(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            Text("Nome")
+            Text("Nome do Produto")
             CustomOutlinedTextField(
                 value = state.nome,
                 onValueChange = viewModel::onNomeChanged,
                 isErro = state.erroNome != null,
+                placeholder = "Nome do Produto",
                 inputType = KeyboardType.Text,
-                placeholder = "Nome"
             )
             if (state.erroNome != null) ErroComponent(state.erroNome!!)
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text("Volume")
-            CustomOutlinedTextField(
-                value = state.volume,
-                onValueChange = viewModel::onVolumeChanged,
-                isErro = state.erroVolume != null,
-                placeholder = "Volume",
-                inputType = KeyboardType.Number
-            )
-            if (state.erroVolume != null) ErroComponent(state.erroVolume!!)
-
-            LinhaTextoComSwitch(
-                texto = "Barril descartável",
-                onCheckedChange = viewModel::onDescartavelChanged,
-                isCheck = state.descartavel
-            )
-
             Spacer(modifier = Modifier.height(16.dp))
 
+            Text("Prazo de Validade (em dias)")
+            CustomOutlinedTextField(
+                value = state.prazoValidade,
+                onValueChange = viewModel::onValidadeChanged,
+                isErro = state.erroPrazoValidade != null,
+                placeholder = "validade",
+                inputType = KeyboardType.Number,
+            )
+            if (state.erroPrazoValidade != null) ErroComponent(state.erroPrazoValidade!!)
+            Spacer(modifier = Modifier.height(24.dp))
+
             ButtomFillMaxWidth(
-                onClick = { viewModel.atualizar() },
+                onClick = viewModel::insert,
                 nome = "Salvar"
             )
 
             if (state.isLoading) CarregandoComponent(cor = Color.Magenta)
-
         }
-
     }
+
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    AdicionarProdutoScreen()
 }

@@ -11,6 +11,6 @@ class InsertProdutoUseCase @Inject constructor(
     suspend operator fun invoke(produto: ProdutoEntity): Result<Unit> {
         val idGerado = UUID.randomUUID().toString()
         val produtoComId = produto.copy(id = idGerado)
-        return repository.insertProduto(produto)
+        return repository.insertProduto(produtoComId)
     }
 }

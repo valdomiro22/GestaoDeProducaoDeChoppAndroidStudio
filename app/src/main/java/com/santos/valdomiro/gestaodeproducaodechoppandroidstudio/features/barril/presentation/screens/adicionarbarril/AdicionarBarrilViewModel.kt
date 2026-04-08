@@ -71,7 +71,6 @@ class AdicionarBarrilViewModel @Inject constructor(
             }.onFailure { erro ->
                 _uiState.update { it.copy(isLoading = false, erro = erro.toUserMessage()) }
             }
-
         }
     }
 

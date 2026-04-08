@@ -16,6 +16,7 @@ sealed class Screen(
     object AlterarNomeScreen : Screen("alterar-nome")
     object DeletarContaScreen : Screen("deletar-conta")
     object AdicionarBarrilScreen : Screen("adicionar-barril")
+    object AdicionarProdutoScreen : Screen("adicionar-produto")
     object HomeScreen : Screen("home")
     object ListaDeBarrisScreen : Screen("lista-barris")
 //    data class AtualizarBarrilScreen(val barrilId: String) : Screen("editar_barril/{barrilId}") {
