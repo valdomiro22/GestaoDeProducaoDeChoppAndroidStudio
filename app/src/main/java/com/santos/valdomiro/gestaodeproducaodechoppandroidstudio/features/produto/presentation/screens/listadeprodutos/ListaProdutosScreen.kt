@@ -128,7 +128,7 @@ fun ListaProdutosScreen(
                             ) {
                                 ItemListaProduto(
                                     produto = produto,
-                                    onDeletarClick = {},
+                                    onDeletarClick = { viewModel.deleteProduto(produto.id!!) },
                                     onEditarClick = {}
                                 )
                             }
