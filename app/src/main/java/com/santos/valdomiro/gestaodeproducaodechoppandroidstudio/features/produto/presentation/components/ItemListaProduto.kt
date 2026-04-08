@@ -1,4 +1,4 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.components
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.components
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -21,11 +21,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.domain.entity.ProdutoEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 
 @Composable
-fun ItemListaBarril(
-    barril: BarrilEntity,
+fun ItemListaProduto(
+    produto: ProdutoEntity,
     onEditarClick: () -> Unit,
     onDeletarClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -47,9 +48,9 @@ fun ItemListaBarril(
                 .padding(10.dp)
                 .weight(1f)) {
                 Row {
-                    Text("Tipo: ", color = Color.White)
+                    Text("Nome: ", color = Color.White)
                     Text(
-                        barril.nome,
+                        produto.nome,
                         color = Color.White,
                         fontWeight = FontWeight.W600
                     )
@@ -57,21 +58,15 @@ fun ItemListaBarril(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Row {
-                    Text("Volume: ", color = Color.White)
+                    Text("Validade: ", color = Color.White)
                     Text(
-                        "${barril.volume} litros",
+                        "${produto.prazoValidade} dias",
                         color = Color.White,
                         fontWeight = FontWeight.W600
                     )
 
                 }
                 Spacer(modifier = Modifier.height(6.dp))
-
-                Text(
-                    text = if (barril.descartavel) "Descartavél" else "Retornável",
-                    fontStyle = FontStyle.Italic,
-                    color = if (barril.descartavel) Color(0xFF99204A) else Color(0xFF51F628)
-                )
 
             }
 
@@ -86,11 +81,10 @@ fun ItemListaBarril(
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    val barril = BarrilEntity(
+    val produto = ProdutoEntity(
         id = "asdo2432",
-        nome = "50L",
-        volume = 50,
-        descartavel = false
+        nome = "Petra",
+        prazoValidade = 30
     )
-    ItemListaBarril(barril = barril, onEditarClick = {}, onDeletarClick = {})
+    ItemListaProduto(produto = produto, onEditarClick = {}, onDeletarClick = {})
 }

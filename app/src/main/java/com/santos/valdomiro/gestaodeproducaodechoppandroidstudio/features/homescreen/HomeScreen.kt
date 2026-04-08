@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ButtomFillMaxWidth
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 
 @Composable
 fun HomeScreen() {
@@ -32,14 +32,14 @@ fun HomeScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = { navController.navigate(Screen.ListaDeBarrisScreen.route) },
+            onClick = { navController.navigate(Route.ListaDeBarrisRoute.route) },
             nome = "Lista de barris"
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = { navController.navigate(Screen.AdicionarProdutoScreen.route) },
-            nome = "Adicionar produto"
+            onClick = { navController.navigate(Route.ListaDeProdutosRoute.route) },
+            nome = "Lista de produtos"
         )
     }
 }

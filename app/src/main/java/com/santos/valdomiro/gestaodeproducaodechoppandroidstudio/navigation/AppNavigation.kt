@@ -13,6 +13,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.listadebarris.ListaBarrisScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.homescreen.HomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto.AdicionarProdutoScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.listadeprodutos.ListaProdutosScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alteraremail.AlterarEmailScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarnome.AlterarNomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarsenha.AlterarSenhaScreen
@@ -33,32 +34,18 @@ fun AppNavigation(
             startDestination = startDestination,
             modifier = modifier
         ) {
-            composable(Screen.LoginScreen.route) { LoginScreen() }
-            composable(Screen.CadastroScreen.route) { CadastroScreen() }
-            composable(Screen.ConfiguracoesDeUsuario.route) { ConfiguracoesDeUsuarioScreen() }
-            composable(Screen.AlterarEmailScreen.route) { AlterarEmailScreen() }
-            composable(Screen.AlterarSenhaScreen.route) { AlterarSenhaScreen() }
-            composable(Screen.AlterarNomeScreen.route) { AlterarNomeScreen() }
-            composable(Screen.DeletarContaScreen.route) { DeletarContaScreen() }
-            composable(Screen.AdicionarBarrilScreen.route) { AdicionarBarrilScreen() }
-            composable(Screen.AdicionarProdutoScreen.route) { AdicionarProdutoScreen() }
-            composable(Screen.HomeScreen.route) { HomeScreen() }
-            composable(Screen.ListaDeBarrisScreen.route) { ListaBarrisScreen() }
-
-//            // Atualizar Barril
-//            composable(
-//                route = Screen.AtualizarBarrilScreen("dummy").route,
-//                arguments = listOf(
-//                    navArgument("barrilId") {
-//                        type = NavType.StringType
-//                    }
-//                )
-//            ) { backStackEntry ->
-//                val barrilId = backStackEntry.arguments?.getString("barrilId")
-//                    ?: return@composable
-//
-//                AtualizarBarrilScreen(barrilId = barrilId)
-//            }
+            composable(Route.LoginRoute.route) { LoginScreen() }
+            composable(Route.CadastroRoute.route) { CadastroScreen() }
+            composable(Route.ConfiguracoesDeUsuario.route) { ConfiguracoesDeUsuarioScreen() }
+            composable(Route.AlterarEmailRoute.route) { AlterarEmailScreen() }
+            composable(Route.AlterarSenhaRoute.route) { AlterarSenhaScreen() }
+            composable(Route.AlterarNomeRoute.route) { AlterarNomeScreen() }
+            composable(Route.DeletarContaRoute.route) { DeletarContaScreen() }
+            composable(Route.AdicionarBarrilRoute.route) { AdicionarBarrilScreen() }
+            composable(Route.AdicionarProdutoRoute.route) { AdicionarProdutoScreen() }
+            composable(Route.HomeRoute.route) { HomeScreen() }
+            composable(Route.ListaDeBarrisRoute.route) { ListaBarrisScreen() }
+            composable(Route.ListaDeProdutosRoute.route) { ListaProdutosScreen() }
 
             // Atualizar Barril
             composable(

@@ -1,15 +1,10 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.listadebarris
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -39,8 +34,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.Ui
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.components.ItemListaBarril
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,7 +64,7 @@ fun ListaBarrisScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Screen.AdicionarBarrilScreen.route)
+                    navController.navigate(Route.AdicionarBarrilRoute.route)
                 },
                 containerColor = Color(0xFF6450A1),
                 contentColor = Color.White
@@ -115,7 +109,6 @@ fun ListaBarrisScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text("Nenhum barril cadastrado ainda")
-                        Log.d(TAG, "ListaBarrisScreen: Lista Vazia")
                     }
                 } else {
                     LazyColumn(
@@ -138,7 +131,7 @@ fun ListaBarrisScreen(
                                     barril = barril,
                                     onDeletarClick = { viewModel.deleteBarril(barril.id!!) },
                                     onEditarClick = {
-                                        navController.navigate(Screen.AtualizarBarril.criarRota(barril.id!!))
+                                        navController.navigate(Route.AtualizarBarril.criarRota(barril.id!!))
                                     }
                                 )
                             }

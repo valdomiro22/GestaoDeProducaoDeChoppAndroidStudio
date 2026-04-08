@@ -36,7 +36,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components.OutlinedTextFieldSenha
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 
 @Composable
 fun LoginScreen(
@@ -52,8 +52,8 @@ fun LoginScreen(
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
-            navController.navigate(Screen.ConfiguracoesDeUsuario.route) {
-                popUpTo(Screen.LoginScreen.route) { inclusive = true }
+            navController.navigate(Route.ConfiguracoesDeUsuario.route) {
+                popUpTo(Route.LoginRoute.route) { inclusive = true }
             }
         }
     }
@@ -130,7 +130,7 @@ fun LoginScreen(
             Text("Ainda não possui uma conta?")
             TextButton(
                 onClick = {
-                    navController.navigate(Screen.CadastroScreen.route)
+                    navController.navigate(Route.CadastroRoute.route)
                 }
             ) {
                 Text("Cadastrar")

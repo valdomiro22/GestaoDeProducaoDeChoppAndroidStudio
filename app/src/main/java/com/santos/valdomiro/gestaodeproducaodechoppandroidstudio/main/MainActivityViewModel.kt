@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.domain.usecase.GetCurrentUserUseCase
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class MainActivityViewModel @Inject constructor(
         private set
 
 //    var startDestination by mutableStateOf(Screen.HomeScreen.route)
-    var startDestination by mutableStateOf(Screen.HomeScreen.route)
+    var startDestination by mutableStateOf(Route.HomeRoute.route)
         private set
 
     init {
@@ -37,12 +37,12 @@ class MainActivityViewModel @Inject constructor(
 
             result.onSuccess { usuario ->
                 startDestination = if (usuario != null) {
-                    Screen.HomeScreen.route
+                    Route.HomeRoute.route
                 } else {
-                    Screen.LoginScreen.route
+                    Route.LoginRoute.route
                 }
             }.onFailure {
-                startDestination = Screen.LoginScreen.route
+                startDestination = Route.LoginRoute.route
             }
 
             isLoading.value = false

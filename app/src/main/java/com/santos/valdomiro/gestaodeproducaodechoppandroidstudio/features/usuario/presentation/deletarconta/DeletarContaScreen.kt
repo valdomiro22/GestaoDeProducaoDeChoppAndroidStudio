@@ -37,7 +37,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuari
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components.OutlinedTextFieldSenha
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,7 +53,7 @@ fun DeletarContaScreen(
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
             Toast.makeText(context, "Conta deletada", Toast.LENGTH_SHORT).show()
-            navController.navigate(Screen.LoginScreen.route) {
+            navController.navigate(Route.LoginRoute.route) {
                 popUpTo(0) { inclusive = true }  // Limpa tudo do histórico para o usuário não conseguir "voltar" para as configs
 
             }

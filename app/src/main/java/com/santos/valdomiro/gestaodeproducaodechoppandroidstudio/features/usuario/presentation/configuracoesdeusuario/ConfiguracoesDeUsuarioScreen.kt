@@ -20,7 +20,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ButtomFillMaxWidth
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 
 @Composable
 fun ConfiguracoesDeUsuarioScreen(
@@ -34,7 +34,7 @@ fun ConfiguracoesDeUsuarioScreen(
     LaunchedEffect(uiState) {
         if (uiState is UiState.Success) {
             Toast.makeText(context, "Sessão encerrada", Toast.LENGTH_SHORT).show()
-            navController.navigate(Screen.LoginScreen.route) {
+            navController.navigate(Route.LoginRoute.route) {
                 popUpTo(0) { inclusive = true }  // Limpa tudo do histórico para o usuário não conseguir "voltar" para as configs
 
             }
@@ -64,30 +64,30 @@ fun ConfiguracoesDeUsuarioScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = { navController.navigate(Screen.AlterarNomeScreen.route) },
+            onClick = { navController.navigate(Route.AlterarNomeRoute.route) },
             nome = "Alterar Nome"
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = { navController.navigate(Screen.AlterarEmailScreen.route) },
+            onClick = { navController.navigate(Route.AlterarEmailRoute.route) },
             nome = "Alterar E-mail"
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = { navController.navigate(Screen.AlterarSenhaScreen.route) },
+            onClick = { navController.navigate(Route.AlterarSenhaRoute.route) },
             nome = "Alterar Senha"
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = { navController.navigate(Screen.DeletarContaScreen.route) },
+            onClick = { navController.navigate(Route.DeletarContaRoute.route) },
             nome = "Excluir Conta"
         )
 
         ButtomFillMaxWidth(
-            onClick = { navController.navigate(Screen.DeletarContaScreen.route) },
+            onClick = { navController.navigate(Route.DeletarContaRoute.route) },
             nome = "Lista de barris"
         )
     }

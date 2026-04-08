@@ -38,7 +38,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.components.OutlinedTextFieldSenha
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Screen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 
 @Composable
 fun CadastroScreen(
@@ -55,8 +55,8 @@ fun CadastroScreen(
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
-            navController.navigate(Screen.ConfiguracoesDeUsuario.route) {
-                popUpTo(Screen.CadastroScreen.route) { inclusive = true }
+            navController.navigate(Route.ConfiguracoesDeUsuario.route) {
+                popUpTo(Route.CadastroRoute.route) { inclusive = true }
             }
         }
     }
