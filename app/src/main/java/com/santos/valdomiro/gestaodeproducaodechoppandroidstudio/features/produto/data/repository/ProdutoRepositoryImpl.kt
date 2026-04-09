@@ -21,10 +21,7 @@ class ProdutoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateProduto(
-        id: String,
-        produto: ProdutoEntity
-    ): Result<Unit> {
+    override suspend fun updateProduto(id: String, produto: ProdutoEntity): Result<Unit> {
         return try {
             val dto = produto.toDto()
             dataSource.updateProduto(id, dto)
