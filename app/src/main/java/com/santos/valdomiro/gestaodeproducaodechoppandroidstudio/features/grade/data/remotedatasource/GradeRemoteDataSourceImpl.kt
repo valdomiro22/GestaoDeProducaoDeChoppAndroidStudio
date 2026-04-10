@@ -2,6 +2,7 @@ package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.SetOptions
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.AcessoNegadoException
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.ErroBancoDadosDesconhecidoException
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.NaoEncontradoException
@@ -24,7 +25,7 @@ class GradeRemoteDataSourceImpl @Inject constructor(
 
             firestore.collection(gradeCollection)
                 .document(grade.id)
-                .set(grade.toMap())
+                .set(grade)
                 .await()
         }
     }
@@ -33,7 +34,7 @@ class GradeRemoteDataSourceImpl @Inject constructor(
         mapearExecution {
             firestore.collection(gradeCollection)
                 .document(id)
-                .update(grade.toMap())
+                .set(grade, SetOptions.merge())
                 .await()
         }
     }

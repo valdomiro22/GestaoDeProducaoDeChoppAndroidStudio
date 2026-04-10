@@ -20,6 +20,7 @@ sealed class Route(
     object HomeRoute : Route("home")
     object ListaDeBarrisRoute : Route("lista-barris")
     object ListaDeProdutosRoute : Route("lista-produtos")
+    object ListaDeGradesRoute : Route("lista-grades")
     object AdicionarGradeRoute : Route("adicionar-grade")
 
     object AtualizarBarril : Route("atualizar_barril/{barrilId}") {
