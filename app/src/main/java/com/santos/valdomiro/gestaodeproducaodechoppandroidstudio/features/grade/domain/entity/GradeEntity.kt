@@ -1,14 +1,11 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.domain.entity
 
-import com.google.type.DateTime
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
+import java.time.LocalDate
 
-data class GradeEntity @OptIn(ExperimentalTime::class) constructor(
-    val id: String?,
+data class GradeEntity constructor(
+    val id: String? = null,
     val numero: Int = 0,
-    val data: Instant = Clock.System.now(),
+    val data: LocalDate = LocalDate.now(),
     val quantidadeBarris: Int = -1,
     val volumeHlNecessario: Double = -0.1,
 )

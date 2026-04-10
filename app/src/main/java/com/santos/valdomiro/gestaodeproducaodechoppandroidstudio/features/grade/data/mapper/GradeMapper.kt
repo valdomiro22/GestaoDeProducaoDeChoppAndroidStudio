@@ -1,11 +1,10 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.data.mapper
 
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.data.dto.GradeDto
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.data.dto.GradeRemoteDto
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.domain.entity.GradeEntity
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
-fun GradeDto.toEntity() = GradeEntity(
+fun GradeRemoteDto.toEntity() = GradeEntity(
     id = this.id,
     numero = this.numero,
     data = this.data,
@@ -14,7 +13,7 @@ fun GradeDto.toEntity() = GradeEntity(
 )
 
 @OptIn(ExperimentalTime::class)
-fun GradeEntity.toDto() = GradeDto(
+fun GradeEntity.toDto() = GradeRemoteDto(
     id = this.id,
     numero = this.numero,
     data = this.data,

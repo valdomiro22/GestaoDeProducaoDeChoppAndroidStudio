@@ -6,7 +6,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptio
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.ErroBancoDadosDesconhecidoException
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.NaoEncontradoException
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.exceptions.ServicoIndisponivelException
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.data.dto.GradeDto
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.data.dto.GradeRemoteDto
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class GradeRemoteDataSourceImpl @Inject constructor(
 
     private val gradeCollection = "grade"
 
-    override suspend fun insertGrade(grade: GradeDto) {
+    override suspend fun insertGrade(grade: GradeRemoteDto) {
         mapearExecution {
             if (grade.id.isNullOrEmpty()) {
                 throw IllegalArgumentException("Erro: Tentativa de salvar Grade sem ID")
@@ -24,12 +24,12 @@ class GradeRemoteDataSourceImpl @Inject constructor(
 
             firestore.collection(gradeCollection)
                 .document(grade.id)
-                .set(grade)
+                .set(grade.toMap())
                 .await()
         }
     }
 
-    override suspend fun updateGrade(id: String, grade: GradeDto) {
+    override suspend fun updateGrade(id: String, grade: GradeRemoteDto) {
         mapearExecution {
             firestore.collection(gradeCollection)
                 .document(id)
@@ -38,14 +38,14 @@ class GradeRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getGrade(id: String): GradeDto? {
+    override suspend fun getGrade(id: String): GradeRemoteDto? {
         return mapearExecution {
             val snapshot = firestore.collection(gradeCollection)
                 .document(id)
                 .get()
                 .await()
 
-            snapshot.toObject(GradeDto::class.java)
+            snapshot.toObject(GradeRemoteDto::class.java)
         }
     }
 
@@ -58,13 +58,13 @@ class GradeRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllGrades(): List<GradeDto> {
+    override suspend fun getAllGrades(): List<GradeRemoteDto> {
         return mapearExecution {
             val snapshot = firestore.collection(gradeCollection)
                 .get()
                 .await()
 
-            snapshot.documents.mapNotNull { it.toObject(GradeDto::class.java) }
+            snapshot.documents.mapNotNull { it.toObject(GradeRemoteDto::class.java) }
         }
     }
 

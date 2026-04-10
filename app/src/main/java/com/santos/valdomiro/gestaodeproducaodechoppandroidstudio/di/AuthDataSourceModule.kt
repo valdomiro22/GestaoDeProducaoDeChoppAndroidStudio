@@ -2,6 +2,8 @@ package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.di
 
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.data.datasource.BarrilRemoteDataSource
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.data.datasource.BarrilRemoteDataSourceImpl
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.data.remotedatasource.GradeRemoteDataSource
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.data.remotedatasource.GradeRemoteDataSourceImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.data.remotedatasource.ProdutoRemoteDataSource
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.data.remotedatasource.ProdutoRemoteDataSourceImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.AuthDataSource
@@ -39,5 +41,9 @@ abstract class AuthDataSourceModule {
     @Binds
     @Singleton
     abstract fun bindProdutoRemoteDataSource(impl: ProdutoRemoteDataSourceImpl): ProdutoRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindGradeRemoteDataSource(impl: GradeRemoteDataSourceImpl): GradeRemoteDataSource
 
 }

@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.adicionarbarril.AdicionarBarrilScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.atualizarbarril.AtualizarBarrilScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.listadebarris.ListaBarrisScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.adicionargrade.AdicionarGradeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.homescreen.HomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto.AdicionarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.atualizarproduto.AtualizarProdutoScreen
@@ -47,6 +48,7 @@ fun AppNavigation(
             composable(Route.HomeRoute.route) { HomeScreen() }
             composable(Route.ListaDeBarrisRoute.route) { ListaBarrisScreen() }
             composable(Route.ListaDeProdutosRoute.route) { ListaProdutosScreen() }
+            composable(Route.AdicionarGradeRoute.route) { AdicionarGradeScreen() }
 
             // Atualizar Barril
             composable(

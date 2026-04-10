@@ -20,6 +20,7 @@ sealed class Route(
     object HomeRoute : Route("home")
     object ListaDeBarrisRoute : Route("lista-barris")
     object ListaDeProdutosRoute : Route("lista-produtos")
+    object AdicionarGradeRoute : Route("adicionar-grade")
 
     object AtualizarBarril : Route("atualizar_barril/{barrilId}") {
         fun criarRota(id: String) = "atualizar_barril/$id"  // Uma função ajudante para montar a rota na hora do clique

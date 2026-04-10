@@ -41,6 +41,13 @@ fun HomeScreen() {
             onClick = { navController.navigate(Route.ListaDeProdutosRoute.route) },
             nome = "Lista de produtos"
         )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        ButtomFillMaxWidth(
+            onClick = { navController.navigate(Route.AdicionarGradeRoute.route) },
+            nome = "Adicionar Grade"
+        )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
