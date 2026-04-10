@@ -58,7 +58,7 @@ fun AtualizarProdutoScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Adicionar Barril") },
+                title = { Text("Atualizar Barril") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")

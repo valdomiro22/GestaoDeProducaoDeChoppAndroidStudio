@@ -89,18 +89,6 @@ fun AdicionarGradeScreen(
             if (state.erroNumero != null) ErroComponent(state.erroNumero!!)
             Spacer(modifier = Modifier.height(8.dp))
 
-
-
-
-
-            // TODO - Problema com o datepicker, a data foi salva em um formato estranho, tem que arrumar isso
-
-
-
-
-
-
-
             AppDatePicker(
                 selectedDate = state.data,
                 onDateSelected = viewModel::onDataChanged,

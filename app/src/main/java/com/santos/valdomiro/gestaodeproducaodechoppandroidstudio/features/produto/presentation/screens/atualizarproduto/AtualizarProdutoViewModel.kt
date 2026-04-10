@@ -28,16 +28,12 @@ class AtualizarProdutoViewModel @Inject constructor(
     fun buscarProduto(produtoId: String) {
         produtoIdAtual = produtoId
 
-        Log.d(TAG, "buscarProduto: ID para buscar: $produtoId")
-        Log.d(TAG, "buscarProduto: Tentou buscar")
-
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, erro = null) }
 
             getProdutoUseCase(produtoId).fold(
                 onSuccess = { produto ->
                     _uiState.update {
-                        Log.d(TAG, "buscarProduto: nome: ${it.nome}, validade: ${it.prazoValidade}")
                         it.copy(
                             nome = produto.nome,
                             prazoValidade = produto.prazoValidade.toString(),

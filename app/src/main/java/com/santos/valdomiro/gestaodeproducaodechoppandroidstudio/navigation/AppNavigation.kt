@@ -12,6 +12,8 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.atualizarbarril.AtualizarBarrilScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.listadebarris.ListaBarrisScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.adicionargrade.AdicionarGradeScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.atualizargrade.AtualizarGradeScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.atualizargrade.AtualizarGradeState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.listadegrades.ListaGradesScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.homescreen.HomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto.AdicionarProdutoScreen
@@ -78,6 +80,20 @@ fun AppNavigation(
             ) { backStackEntry ->
                 val produtoId = backStackEntry.arguments?.getString("produtoId") ?: return@composable
                 AtualizarProdutoScreen(produtoId = produtoId)
+            }
+
+            // Atualizar Grade
+            composable(
+                // A rota DEVE ter o placeholder {barrilId} explicitamente
+                route = "atualizar_grade/{gradeId}",
+                arguments = listOf(
+                    navArgument("gradeId") {
+                        type = NavType.StringType
+                    }
+                )
+            ) { backStackEntry ->
+                val gradeId = backStackEntry.arguments?.getString("gradeId") ?: return@composable
+                AtualizarGradeScreen(gradeId = gradeId)
             }
         }
     }

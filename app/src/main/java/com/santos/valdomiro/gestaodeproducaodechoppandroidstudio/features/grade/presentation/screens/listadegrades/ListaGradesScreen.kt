@@ -1,5 +1,6 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.listadegrades
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -35,6 +36,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.components.ItemListaGrade
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -128,7 +130,8 @@ fun ListaGradesScreen(
                                     grade = grade,
                                     onDeletarClick = { viewModel.deleteGrade(grade.id!!) },
                                     onEditarClick = {
-//                                        navController.navigate(Route.AtualizarBarril.criarRota(grade.id!!))
+                                        Log.i(TAG, "ListaGradesScreen: ID para atualizar: ${grade.id}")
+                                        navController.navigate(Route.AtualizarGradeRoute.criarRota(grade.id!!))
                                     }
                                 )
                             }
