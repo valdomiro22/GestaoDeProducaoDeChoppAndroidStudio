@@ -5,7 +5,7 @@ import java.time.LocalDate
 data class GradeEntity constructor(
     val id: String? = null,
     val numero: Int = 0,
-    val data: LocalDate = LocalDate.now(),
+    val data: LocalDate = LocalDate.now(),  // TODO - trocar por Date()
     val quantidadeBarris: Int = -1,
     val volumeHlNecessario: Double = -0.1,
 )
