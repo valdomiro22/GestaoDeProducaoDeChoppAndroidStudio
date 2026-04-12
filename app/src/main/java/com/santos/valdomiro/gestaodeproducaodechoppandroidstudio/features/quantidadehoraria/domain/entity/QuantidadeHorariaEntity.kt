@@ -3,7 +3,7 @@ package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quant
 import java.time.LocalDate
 
 data class QuantidadeHorariaEntity(
-    val id: String = "",
+    val id: String? = null,
     val turnoId: Int = 1,
     val producaoId: String = "",
     val horarioReferente: Int = 0,
