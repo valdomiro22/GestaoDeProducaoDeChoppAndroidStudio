@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.components.ItemListaBarril
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.ProducaoEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.components.ItemListaProducao
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
@@ -120,7 +119,9 @@ fun ListaProducoesScreen(
                     ) {
                         items(
                             items = listaProducoes,
-                            key = { it.id ?: it.quantidadeProgramada }        // chave única (boa prática)
+                            key = {
+                                it.id ?: it.quantidadeProgramada
+                            }        // chave única (boa prática)
                         ) { producao ->
                             Card(
                                 modifier = Modifier
@@ -130,12 +131,14 @@ fun ListaProducoesScreen(
                                 ItemListaProducao(
                                     producao = producao,
                                     onDeletarClick = {
-                                        Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show() },
+                                        viewModel.deleteProducao(producao.id!!)
+                                    },
                                     onEditarClick = {
                                         Toast.makeText(context, "Editar", Toast.LENGTH_SHORT).show()
                                     },
                                     onDetalhesClick = {
-                                        Toast.makeText(context, "Detalhes", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Detalhes", Toast.LENGTH_SHORT)
+                                            .show()
                                     }
                                 )
                             }
