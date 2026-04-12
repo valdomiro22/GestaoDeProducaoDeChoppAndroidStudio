@@ -50,8 +50,8 @@ fun HomeScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         ButtomFillMaxWidth(
-            onClick = { navController.navigate(Route.AdicionarProducaoRoute.route) },
-            nome = "Adicionar Produção"
+            onClick = { navController.navigate(Route.ListaDeProducoesRoute.route) },
+            nome = "Lista de porduções"
         )
         Spacer(modifier = Modifier.height(16.dp))
     }

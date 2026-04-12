@@ -180,7 +180,7 @@ fun AdicionarProducaoScreen(
                 nome = "Salvar"
             )
 
-            if (producaoState.isLoading) CarregandoComponent()
+            if (producaoState.isLoading) CarregandoComponent(cor = Color.Magenta)
 
         }
     }
