@@ -16,6 +16,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.atualizargrade.AtualizarGradeState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.listadegrades.ListaGradesScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.homescreen.HomeScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.adicionarproducao.AdicionarProducaoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto.AdicionarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.atualizarproduto.AtualizarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.listadeprodutos.ListaProdutosScreen
@@ -53,6 +54,7 @@ fun AppNavigation(
             composable(Route.ListaDeProdutosRoute.route) { ListaProdutosScreen() }
             composable(Route.ListaDeGradesRoute.route) { ListaGradesScreen() }
             composable(Route.AdicionarGradeRoute.route) { AdicionarGradeScreen() }
+            composable(Route.AdicionarProducaoRoute.route) { AdicionarProducaoScreen() }
 
             // Atualizar Barril
             composable(

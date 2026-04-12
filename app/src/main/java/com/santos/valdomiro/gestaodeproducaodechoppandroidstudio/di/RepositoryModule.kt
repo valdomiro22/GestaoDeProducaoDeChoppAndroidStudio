@@ -4,6 +4,8 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.repository.BarrilRepository
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.data.repository.GradeRepositoryImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.domain.repository.GradeRepository
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.data.repository.ProducaoRepositoryImpl
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.repository.ProducaoRepository
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.data.repository.ProdutoRepositoryImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.domain.repository.ProdutoRepository
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.repository.AuthRepositoryImpl
@@ -57,5 +59,11 @@ abstract class RepositoryModule {
     abstract fun bindGradeRepository(
         gradeRepositoryImpl: GradeRepositoryImpl
     ): GradeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindProducaoRepository(
+        producaoRepositoryImpl: ProducaoRepositoryImpl
+    ): ProducaoRepository
 
 }

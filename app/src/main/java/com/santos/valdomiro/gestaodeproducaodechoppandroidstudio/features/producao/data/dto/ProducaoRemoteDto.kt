@@ -9,8 +9,8 @@ data class ProducaoRemoteDto(
     val status: StatusProducao = StatusProducao.NAO_CONCLUIDA,
     val barrilId: String = "",
     val produtoId: String = "",
-    val quantidadeProgramada: Int = -1,
-    val quantidadeProduzida: Int = -1,
+    val quantidadeProgramada: Int = 0,
+    val quantidadeProduzida: Int = 0,
     val dataCriacao: Date = Date(),
     val dataFimDeProducao: Date? = null,
 )
