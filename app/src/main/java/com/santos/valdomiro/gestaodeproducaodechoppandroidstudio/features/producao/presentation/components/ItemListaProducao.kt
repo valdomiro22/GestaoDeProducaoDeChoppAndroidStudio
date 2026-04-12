@@ -65,7 +65,7 @@ fun ItemListaProducao(
             }
 
             Row {
-                TextButton(onClick = onDetalhesClick) { Text("Editar", color = Color.White) }
+                TextButton(onClick = onDetalhesClick) { Text("Detalhes", color = Color.White) }
                 TextButton(onClick = onEditarClick) { Text("Editar", color = Color.White) }
                 TextButton(onClick = onDeletarClick) { Text("Deletar", color = Color.White) }
             }

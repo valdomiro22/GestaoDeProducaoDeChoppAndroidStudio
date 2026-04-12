@@ -17,6 +17,8 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.listadegrades.ListaGradesScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.homescreen.HomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.adicionarproducao.AdicionarProducaoScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.atualizarproducao.AtualizarProducaoScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.atualizarproducao.AtualizarProducaoState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.listaproducoes.ListaProducoesScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto.AdicionarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.atualizarproduto.AtualizarProdutoScreen
@@ -99,6 +101,21 @@ fun AppNavigation(
                 val gradeId = backStackEntry.arguments?.getString("gradeId") ?: return@composable
                 AtualizarGradeScreen(gradeId = gradeId)
             }
+
+            // Atualizar Produção
+            composable(
+                // A rota DEVE ter o placeholder {barrilId} explicitamente
+                route = "atualizar_producao/{producaoId}",
+                arguments = listOf(
+                    navArgument("producaoId") {
+                        type = NavType.StringType
+                    }
+                )
+            ) { backStackEntry ->
+                val producaoId = backStackEntry.arguments?.getString("producaoId") ?: return@composable
+                AtualizarProducaoScreen(producaoId = producaoId)
+            }
+
         }
     }
 }

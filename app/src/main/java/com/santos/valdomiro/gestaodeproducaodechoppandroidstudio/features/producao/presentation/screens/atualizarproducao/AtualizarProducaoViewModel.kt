@@ -1,4 +1,4 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.adicionarproducao
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.atualizarproducao
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.ProducaoEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.StatusProducao
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.usecase.InsertProducaoUseCase
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.usecase.GetOneProducaoUseCase
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.usecase.UpdateProducaoUseCase
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.adicionarproducao.AdicionarProducaoState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.domain.entity.ProdutoEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.mappers.toUserMessage
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
@@ -19,12 +21,46 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class AdicionarProducaoViewModel @Inject constructor(
-    private val inserirProducao: InsertProducaoUseCase
+class AtualizarProducaoViewModel @Inject constructor(
+    private val updateProducaoUseCase: UpdateProducaoUseCase,
+    private val getUmaProducaoUseCase: GetOneProducaoUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(AdicionarProducaoState())
+    private val _uiState = MutableStateFlow(AtualizarProducaoState())
     val uiState = _uiState.asStateFlow()
+
+    private var producaoIdAtual: String? = null
+    fun buscarProducao(producaoId: String) {
+        producaoIdAtual = producaoId
+
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, erro = null) }
+
+            getUmaProducaoUseCase(producaoId).fold(
+                onSuccess = { producao ->
+                    _uiState.update {
+                        it.copy(
+                            gradeId = producao.gradeId,
+                            produtoId = producao.produtoId,
+                            produtoNome = producao.produtoNome,
+                            barrilId = producao.barrilId,
+                            barrilNome = producao.barrilNome,
+                            quantidade = producao.quantidadeProgramada.toString(),
+                            dataCriacao = producao.dataCriacao,
+                            status = producao.status,
+                            quantidadeProduzida = producao.quantidadeProduzida,
+                            isLoading = false
+                        )
+                    }
+                },
+                onFailure = { erro ->
+                    _uiState.update {
+                        it.copy(isLoading = false, erro = erro.message)
+                    }
+                }
+            )
+        }
+    }
 
     fun onProdutoChanged(value: ProdutoEntity?) {
         Log.i(TAG, "onProdutoChanged: Produto: ${value?.nome}")
@@ -52,8 +88,9 @@ class AdicionarProducaoViewModel @Inject constructor(
         _uiState.update { it.copy(quantidade = value, erroQuantidade = null) }
     }
 
-    fun inserir(gradeId: String) {
+    fun atualizar() {
         val currentState = _uiState.value
+        val id = producaoIdAtual ?: return
 
         if (!validar(currentState)) return
 
@@ -78,18 +115,20 @@ class AdicionarProducaoViewModel @Inject constructor(
                 return@launch
             }
 
-            val producao = ProducaoEntity(
-                gradeId = gradeId,
-                status = StatusProducao.NAO_CONCLUIDA,
+            val producaoAtualizada = ProducaoEntity(
+                id = id,
+                gradeId = currentState.gradeId!!,
+                status = currentState.status!!,
                 produtoId = currentState.produtoId!!,
                 produtoNome = currentState.produtoNome!!,
                 barrilId = currentState.barrilId!!,
                 barrilNome = currentState.barrilNome!!,
                 quantidadeProgramada = quantidadeInt,
-                dataCriacao = LocalDate.now()
+                quantidadeProduzida = currentState.quantidadeProduzida!!,
+                dataCriacao = currentState.dataCriacao!!
             )
 
-            inserirProducao(producao)
+            updateProducaoUseCase(id = id, producao = producaoAtualizada)
                 .onSuccess { _uiState.update { it.copy(isLoading = false, isSuccess = true) } }
                 .onFailure { error ->
                     _uiState.update { it.copy(isLoading = false, erro = error.toUserMessage()) }
@@ -97,7 +136,7 @@ class AdicionarProducaoViewModel @Inject constructor(
         }
     }
 
-    fun validar(state: AdicionarProducaoState): Boolean {
+    fun validar(state: AtualizarProducaoState): Boolean {
         var isValid = true
         var newState = state
 

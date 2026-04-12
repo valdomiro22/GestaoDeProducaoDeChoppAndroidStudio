@@ -37,4 +37,8 @@ sealed class Route(
         fun criarRota(id: String) = "atualizar_grade/$id"  // Uma função ajudante para montar a rota na hora do clique
     }
 
+    object AtualizarProducaoRoute : Route("atualizar_producao/{producaoId}") {
+        fun criarRota(id: String) = "atualizar_producao/$id"  // Uma função ajudante para montar a rota na hora do clique
+    }
+
 }

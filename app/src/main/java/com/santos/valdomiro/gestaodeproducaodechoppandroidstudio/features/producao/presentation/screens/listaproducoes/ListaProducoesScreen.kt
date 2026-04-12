@@ -137,7 +137,7 @@ fun ListaProducoesScreen(
                                         viewModel.deleteProducao(producao.id!!)
                                     },
                                     onEditarClick = {
-                                        Toast.makeText(context, "Editar", Toast.LENGTH_SHORT).show()
+                                        navController.navigate(Route.AtualizarProducaoRoute.criarRota(producao.id!!))
                                     },
                                     onDetalhesClick = {
                                         Toast.makeText(context, "Detalhes", Toast.LENGTH_SHORT)
