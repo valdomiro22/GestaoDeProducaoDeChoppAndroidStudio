@@ -1,5 +1,6 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.ProducaoEntity
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 
 @Composable
 fun ItemListaProducao(
@@ -30,8 +32,6 @@ fun ItemListaProducao(
     onDetalhesClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-//    val data
-
     Card(
         modifier = modifier
             .fillMaxWidth(),
@@ -45,30 +45,23 @@ fun ItemListaProducao(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier
-                .padding(10.dp)
-                .weight(1f)) {
-                Row {
-//                    Text("Produto: ", color = Color.White)
-                    Text(
-                        producao.quantidadeProgramada.toString(),
-                        color = Color.White,
-                        fontWeight = FontWeight.W600
-                    )
-                }
+            Column(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .weight(1f)
+            ) {
+                Log.d(TAG, "ItemListaProducao: Produto: ${producao.produtoNome}")
+                Text(
+                    producao.produtoNome,
+                    color = Color.White,
+                    fontWeight = FontWeight.W600
+                )
                 Spacer(modifier = Modifier.height(6.dp))
-
-//                Row {
-//                    Text("Volume: ", color = Color.White)
-//                    Text(
-//                        "${producao.volume} litros",
-//                        color = Color.White,
-//                        fontWeight = FontWeight.W600
-//                    )
-//
-//                }
-
-
+                Text(
+                    "Barril de ${producao.barrilNome}",
+                    color = Color.White,
+                    fontWeight = FontWeight.W600
+                )
             }
 
             Row {

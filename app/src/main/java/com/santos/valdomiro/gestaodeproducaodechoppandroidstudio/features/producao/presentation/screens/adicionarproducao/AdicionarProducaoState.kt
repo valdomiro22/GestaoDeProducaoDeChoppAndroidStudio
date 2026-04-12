@@ -2,7 +2,9 @@ package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produ
 
 data class AdicionarProducaoState(
     val barrilId: String? = null,
+    val barrilNome: String? = null,
     val produtoId: String? = null,
+    val produtoNome: String? = null,
     val quantidade: String = "",
 
     val erroQuantidade: String? = null,

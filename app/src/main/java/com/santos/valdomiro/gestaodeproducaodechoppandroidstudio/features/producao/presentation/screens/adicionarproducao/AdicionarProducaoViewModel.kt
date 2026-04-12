@@ -1,5 +1,6 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.adicionarproducao
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
@@ -8,6 +9,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produc
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.usecase.InsertProducaoUseCase
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.domain.entity.ProdutoEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.mappers.toUserMessage
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,11 +27,24 @@ class AdicionarProducaoViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     fun onProdutoChanged(value: ProdutoEntity?) {
-        _uiState.update { it.copy(produtoId = value?.id, erroProduto = null) }
+        Log.i(TAG, "onProdutoChanged: Produto: ${value?.nome}")
+        _uiState.update {
+            it.copy(
+                produtoId = value?.id,
+                produtoNome = value?.nome,
+                erroProduto = null
+            )
+        }
     }
 
     fun onBarrilChanged(value: BarrilEntity?) {
-        _uiState.update { it.copy(barrilId = value?.id, erroBarril = null) }
+        _uiState.update {
+            it.copy(
+                barrilId = value?.id,
+                barrilNome = value?.nome,
+                erroBarril = null
+            )
+        }
     }
 
     fun onQuantidadeChanged(value: String) {
@@ -66,7 +81,9 @@ class AdicionarProducaoViewModel @Inject constructor(
                 gradeId = gradeId,
                 status = StatusProducao.NAO_CONCLUIDA,
                 produtoId = currentState.produtoId!!,
+                produtoNome = currentState.produtoNome!!,
                 barrilId = currentState.barrilId!!,
+                barrilNome = currentState.barrilNome!!,
                 quantidadeProgramada = quantidadeInt,
                 dataCriacao = LocalDate.now()
             )

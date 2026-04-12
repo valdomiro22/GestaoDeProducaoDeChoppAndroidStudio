@@ -1,5 +1,6 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.listaproducoes
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produc
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.components.ItemListaProducao
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +56,7 @@ fun ListaProducoesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista de Barris") },
+                title = { Text("Lista de Produções") },
                 windowInsets = WindowInsets(0),
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color(0xFF6450A1),
@@ -72,7 +74,7 @@ fun ListaProducoesScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Adicionar barril"
+                    contentDescription = "Adicionar produlção"
                 )
             }
         }
@@ -128,6 +130,7 @@ fun ListaProducoesScreen(
                                     .fillMaxWidth()
                                     .padding(horizontal = 10.dp)
                             ) {
+                                Log.d(TAG, "ListaProducoesScreen: Produto: ${producao.produtoNome}")
                                 ItemListaProducao(
                                     producao = producao,
                                     onDeletarClick = {
