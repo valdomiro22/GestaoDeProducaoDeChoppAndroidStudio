@@ -1,6 +1,5 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.data.repository
 
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.data.mapper.toEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.data.mapper.toDto
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.data.mapper.toEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.data.remotedatasource.ProducaoRemoteDatasource
@@ -13,7 +12,7 @@ class ProducaoRepositoryImpl @Inject constructor(
 ) : ProducaoRepository {
 
     override suspend fun insertProducao(producao: ProducaoEntity): Result<Unit> {
-        return  try {
+        return try {
             val dto = producao.toDto()
             datasource.insertProducao(dto)
             Result.success(Unit)
@@ -23,7 +22,7 @@ class ProducaoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateProducao(id: String, producao: ProducaoEntity): Result<Unit> {
-        return  try {
+        return try {
             val dto = producao.toDto()
             datasource.updateProducao(id = id, producao = dto)
             Result.success(Unit)
