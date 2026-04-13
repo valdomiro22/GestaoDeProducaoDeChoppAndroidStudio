@@ -54,6 +54,12 @@ fun HomeScreen() {
             nome = "Lista de porduções"
         )
         Spacer(modifier = Modifier.height(16.dp))
+
+        ButtomFillMaxWidth(
+            onClick = { navController.navigate(Route.AdicionarQtHorariaRoute.route) },
+            nome = "Adicionar Quantidade Horária"
+        )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

@@ -26,7 +26,7 @@ class AdicionarProdutoViewModel @Inject constructor(
 
     fun onValidadeChanged(value: String) {
         val filtered = value.filter { it.isDigit() }
-        _uiState.update { it.copy(prazoValidade = value, erroPrazoValidade = null) }
+        _uiState.update { it.copy(prazoValidade = filtered, erroPrazoValidade = null) }
     }
 
     fun insert() {

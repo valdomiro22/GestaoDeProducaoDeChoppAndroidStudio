@@ -23,6 +23,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produc
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto.AdicionarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.atualizarproduto.AtualizarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.listadeprodutos.ListaProdutosScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.presentation.screens.adicionarquantidadehoraria.AdicionarQtHorariaScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alteraremail.AlterarEmailScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarnome.AlterarNomeScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.alterarsenha.AlterarSenhaScreen
@@ -59,6 +60,7 @@ fun AppNavigation(
             composable(Route.AdicionarGradeRoute.route) { AdicionarGradeScreen() }
             composable(Route.AdicionarProducaoRoute.route) { AdicionarProducaoScreen() }
             composable(Route.ListaDeProducoesRoute.route) { ListaProducoesScreen() }
+            composable(Route.AdicionarQtHorariaRoute.route) { AdicionarQtHorariaScreen() }
 
             // Atualizar Barril
             composable(

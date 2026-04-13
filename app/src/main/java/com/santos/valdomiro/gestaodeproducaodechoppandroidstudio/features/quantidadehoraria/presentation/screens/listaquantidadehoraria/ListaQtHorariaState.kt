@@ -1,0 +1,4 @@
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.presentation.screens.listaquantidadehoraria
+
+class ListaQtHorariaState {
+}

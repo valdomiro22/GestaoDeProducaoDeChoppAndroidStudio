@@ -8,6 +8,8 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produc
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.repository.ProducaoRepository
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.data.repository.ProdutoRepositoryImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.domain.repository.ProdutoRepository
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.data.repository.QuantidadeHorariaRepositoryImpl
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.repository.QuantidadeHorariaRepository
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.repository.AuthRepositoryImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.repository.StorageRepositoryImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.repository.UsuarioFirestoreFirestoreRepositoryImpl
@@ -65,5 +67,11 @@ abstract class RepositoryModule {
     abstract fun bindProducaoRepository(
         producaoRepositoryImpl: ProducaoRepositoryImpl
     ): ProducaoRepository
+
+    @Binds
+    @Singleton
+abstract fun binQtHorariaRepository(
+        qtHorariaRepositoryImpl: QuantidadeHorariaRepositoryImpl
+    ): QuantidadeHorariaRepository
 
 }

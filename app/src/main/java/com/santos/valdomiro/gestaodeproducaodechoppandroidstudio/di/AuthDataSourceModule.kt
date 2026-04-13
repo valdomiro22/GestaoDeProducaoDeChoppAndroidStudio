@@ -8,6 +8,8 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produc
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.data.remotedatasource.ProducaoRemoteDatasourceImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.data.remotedatasource.ProdutoRemoteDataSource
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.data.remotedatasource.ProdutoRemoteDataSourceImpl
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.data.remotedatasource.QuantidadeHorariaRemoteDatasource
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.data.remotedatasource.QuantidadeHorariaRemoteDatasourceImpl
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.AuthDataSource
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.UsuarioRemoteDataSource
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.data.datasource.AuthDataSourceImpl
@@ -51,5 +53,9 @@ abstract class AuthDataSourceModule {
     @Binds
     @Singleton
     abstract fun bindProducaoRemoteDataSource(impl: ProducaoRemoteDatasourceImpl): ProducaoRemoteDatasource
+
+    @Binds
+    @Singleton
+    abstract fun bindQtHorariaRemoteDataSource(impl: QuantidadeHorariaRemoteDatasourceImpl): QuantidadeHorariaRemoteDatasource
 
 }
