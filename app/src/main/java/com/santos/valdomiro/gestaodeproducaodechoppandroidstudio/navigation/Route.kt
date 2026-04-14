@@ -23,8 +23,11 @@ sealed class Route(
     object ListaDeGradesRoute : Route(route = "lista-grades", title = "lista de grades")
     object AdicionarGradeRoute : Route(route = "adicionar-grade", title = "Adicionar grade")
     object AdicionarProducaoRoute : Route(route = "adicionar-producao", title = "Adicionar produção")
-    object ListaDeProducoesRoute : Route(route = "lista-producoess", title = "Lista de produções")
     object AdicionarQtHorariaRoute : Route(route = "adicionar-qthoraria", title = "Adicionar Qt Horária")
+
+    object ListaDeProducoesRoute : Route(route = "lista-producoes/{gradeId}", title = "Lista de Produções") {
+        fun criarRota(id: String) = "lista-producoes/$id"  // Uma função ajudante para montar a rota na hora do clique
+    }
 
     object AtualizarBarril : Route(route = "atualizar_barril/{barrilId}", title = "Atualizar Barril") {
         fun criarRota(id: String) = "atualizar_barril/$id"  // Uma função ajudante para montar a rota na hora do clique

@@ -72,6 +72,18 @@ class ProducaoRemoteDatasourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllProducoesDaGrade(gradeId: String): List<ProducaoRemoteDto> {
+        return mapearExecution {
+            val snapshot = firestore
+                .collection(producaoCollection)
+                .whereEqualTo("gradeId", gradeId)
+                .get()
+                .await()
+
+            snapshot.documents.mapNotNull { it.toObject(ProducaoRemoteDto::class.java) }
+        }
+    }
+
     /**
      * Função auxiliar para centralizar o tratamento de erros do Firebase.
      * Ela "traduz" exceções técnicas para exceções de domínio.

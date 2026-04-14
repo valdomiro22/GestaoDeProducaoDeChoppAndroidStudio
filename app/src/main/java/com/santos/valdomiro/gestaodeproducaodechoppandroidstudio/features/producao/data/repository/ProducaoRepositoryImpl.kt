@@ -60,4 +60,14 @@ class ProducaoRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllProducoesDaGrade(gradeId: String): Result<List<ProducaoEntity>> {
+        return try {
+            val dtos = datasource.getAllProducoesDaGrade(gradeId = gradeId)
+            val entities = dtos.map { it.toEntity() }
+            Result.success(entities)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 }

@@ -42,7 +42,8 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListaProducoesScreen(
-    viewModel: ListaProducoesViewModel = hiltViewModel()
+    gradeId: String,
+    viewModel: ListaProducoesDaGradeViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
@@ -50,7 +51,7 @@ fun ListaProducoesScreen(
     val navController = LocalNavController.current
 
     LaunchedEffect(Unit) {
-        viewModel.getAll()
+        viewModel.getAllDaGrade(gradeId)
     }
 
     Scaffold(
@@ -134,7 +135,7 @@ fun ListaProducoesScreen(
                                 ItemListaProducao(
                                     producao = producao,
                                     onDeletarClick = {
-                                        viewModel.deleteProducao(producao.id!!)
+                                        viewModel.deleteProducao(id = producao.id!!, gradeId = gradeId)
                                     },
                                     onEditarClick = {
                                         navController.navigate(Route.AtualizarProducaoRoute.criarRota(producao.id!!))

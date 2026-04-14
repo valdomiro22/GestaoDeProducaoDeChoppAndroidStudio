@@ -8,4 +8,5 @@ interface ProducaoRemoteDatasource {
     suspend fun getProducao(id: String): ProducaoRemoteDto?
     suspend fun deleteProducao(id: String)
     suspend fun getAllProducoes(): List<ProducaoRemoteDto>
+    suspend fun getAllProducoesDaGrade(gradeId: String): List<ProducaoRemoteDto>
 }

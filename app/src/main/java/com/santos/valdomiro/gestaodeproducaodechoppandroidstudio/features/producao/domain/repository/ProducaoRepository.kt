@@ -8,4 +8,5 @@ interface ProducaoRepository {
     suspend fun getProducao(id: String): Result<ProducaoEntity?>
     suspend fun deleteProducao(id: String): Result<Unit>
     suspend fun getAllProducoes(): Result<List<ProducaoEntity>>
+    suspend fun getAllProducoesDaGrade(gradeId: String): Result<List<ProducaoEntity>>
 }

@@ -44,7 +44,7 @@ fun ItemListaGrade(
             containerColor = Color(0xFF8E72DB)
         ),
         shape = RoundedCornerShape(8.dp),
-        onClick = { navController.navigate(Route.ListaDeProducoesRoute.route) }
+        onClick = { navController.navigate(Route.ListaDeProducoesRoute.criarRota(grade.id!!)) }
     ) {
 
         Row(
