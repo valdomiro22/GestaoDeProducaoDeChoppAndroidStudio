@@ -22,7 +22,7 @@ class MainActivityViewModel @Inject constructor(
         private set
 
 //    var startDestination by mutableStateOf(Screen.HomeScreen.route)
-    var startDestination by mutableStateOf(Route.HomeRoute.route)
+    var startDestination by mutableStateOf(Route.ListaDeGradesRoute.route)
         private set
 
     init {
@@ -37,7 +37,7 @@ class MainActivityViewModel @Inject constructor(
 
             result.onSuccess { usuario ->
                 startDestination = if (usuario != null) {
-                    Route.HomeRoute.route
+                    Route.ListaDeGradesRoute.route
                 } else {
                     Route.LoginRoute.route
                 }

@@ -44,80 +44,100 @@ fun AppNavigation(
             startDestination = startDestination,
             modifier = modifier
         ) {
-            composable(Route.LoginRoute.route) { LoginScreen() }
-            composable(Route.CadastroRoute.route) { CadastroScreen() }
-            composable(Route.ConfiguracoesDeUsuario.route) { ConfiguracoesDeUsuarioScreen() }
-            composable(Route.AlterarEmailRoute.route) { AlterarEmailScreen() }
-            composable(Route.AlterarSenhaRoute.route) { AlterarSenhaScreen() }
-            composable(Route.AlterarNomeRoute.route) { AlterarNomeScreen() }
-            composable(Route.DeletarContaRoute.route) { DeletarContaScreen() }
-            composable(Route.AdicionarBarrilRoute.route) { AdicionarBarrilScreen() }
-            composable(Route.AdicionarProdutoRoute.route) { AdicionarProdutoScreen() }
-            composable(Route.HomeRoute.route) { HomeScreen() }
-            composable(Route.ListaDeBarrisRoute.route) { ListaBarrisScreen() }
-            composable(Route.ListaDeProdutosRoute.route) { ListaProdutosScreen() }
-            composable(Route.ListaDeGradesRoute.route) { ListaGradesScreen() }
-            composable(Route.AdicionarGradeRoute.route) { AdicionarGradeScreen() }
-            composable(Route.AdicionarProducaoRoute.route) { AdicionarProducaoScreen() }
-            composable(Route.ListaDeProducoesRoute.route) { ListaProducoesScreen() }
-            composable(Route.AdicionarQtHorariaRoute.route) { AdicionarQtHorariaScreen() }
+            // ==================== TELAS DE AUTENTICAÇÃO ====================
+            composable(Route.LoginRoute.route) {
+                LoginScreen()
+            }
+            composable(Route.CadastroRoute.route) {
+                CadastroScreen()
+            }
 
-            // Atualizar Barril
+            // ==================== TELAS DE USUÁRIO ====================
+            composable(Route.ConfiguracoesDeUsuario.route) {
+                ConfiguracoesDeUsuarioScreen()
+            }
+            composable(Route.AlterarEmailRoute.route) {
+                AlterarEmailScreen()
+            }
+            composable(Route.AlterarSenhaRoute.route) {
+                AlterarSenhaScreen()
+            }
+            composable(Route.AlterarNomeRoute.route) {
+                AlterarNomeScreen()
+            }
+            composable(Route.DeletarContaRoute.route) {
+                DeletarContaScreen()
+            }
+
+            // ==================== TELAS PRINCIPAIS ====================
+            composable(Route.HomeRoute.route) {
+                HomeScreen()
+            }
+
+            // ==================== BARRIS ====================
+            composable(Route.ListaDeBarrisRoute.route) {
+                ListaBarrisScreen()
+            }
+            composable(Route.AdicionarBarrilRoute.route) {
+                AdicionarBarrilScreen()
+            }
             composable(
-                // A rota DEVE ter o placeholder {barrilId} explicitamente
                 route = "atualizar_barril/{barrilId}",
-                arguments = listOf(
-                    navArgument("barrilId") {
-                        type = NavType.StringType
-                    }
-                )
+                arguments = listOf(navArgument("barrilId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val barrilId = backStackEntry.arguments?.getString("barrilId") ?: return@composable
                 AtualizarBarrilScreen(barrilId = barrilId)
             }
 
-            // Atualizar Produto
+            // ==================== PRODUTOS ====================
+            composable(Route.ListaDeProdutosRoute.route) {
+                ListaProdutosScreen()
+            }
+            composable(Route.AdicionarProdutoRoute.route) {
+                AdicionarProdutoScreen()
+            }
             composable(
-                // A rota DEVE ter o placeholder {barrilId} explicitamente
                 route = "atualizar_produto/{produtoId}",
-                arguments = listOf(
-                    navArgument("produtoId") {
-                        type = NavType.StringType
-                    }
-                )
+                arguments = listOf(navArgument("produtoId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val produtoId = backStackEntry.arguments?.getString("produtoId") ?: return@composable
                 AtualizarProdutoScreen(produtoId = produtoId)
             }
 
-            // Atualizar Grade
+            // ==================== GRADES (o que você quer adicionar) ====================
+            composable(Route.ListaDeGradesRoute.route) {
+                ListaGradesScreen()
+            }
+            composable(Route.AdicionarGradeRoute.route) {
+                AdicionarGradeScreen()
+            }
             composable(
-                // A rota DEVE ter o placeholder {barrilId} explicitamente
                 route = "atualizar_grade/{gradeId}",
-                arguments = listOf(
-                    navArgument("gradeId") {
-                        type = NavType.StringType
-                    }
-                )
+                arguments = listOf(navArgument("gradeId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val gradeId = backStackEntry.arguments?.getString("gradeId") ?: return@composable
                 AtualizarGradeScreen(gradeId = gradeId)
             }
 
-            // Atualizar Produção
+            // ==================== PRODUÇÕES ====================
+            composable(Route.ListaDeProducoesRoute.route) {
+                ListaProducoesScreen()
+            }
+            composable(Route.AdicionarProducaoRoute.route) {
+                AdicionarProducaoScreen()
+            }
             composable(
-                // A rota DEVE ter o placeholder {barrilId} explicitamente
                 route = "atualizar_producao/{producaoId}",
-                arguments = listOf(
-                    navArgument("producaoId") {
-                        type = NavType.StringType
-                    }
-                )
+                arguments = listOf(navArgument("producaoId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val producaoId = backStackEntry.arguments?.getString("producaoId") ?: return@composable
                 AtualizarProducaoScreen(producaoId = producaoId)
             }
 
+            // ==================== OUTRAS ====================
+            composable(Route.AdicionarQtHorariaRoute.route) {
+                AdicionarQtHorariaScreen()
+            }
         }
     }
 }

@@ -16,10 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.domain.entity.GradeEntity
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 import java.time.LocalDate
 import kotlin.time.Clock
@@ -31,6 +34,7 @@ fun ItemListaGrade(
     grade: GradeEntity,
     onEditarClick: () -> Unit,
     onDeletarClick: () -> Unit,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -40,6 +44,7 @@ fun ItemListaGrade(
             containerColor = Color(0xFF8E72DB)
         ),
         shape = RoundedCornerShape(8.dp),
+        onClick = { navController.navigate(Route.ListaDeProducoesRoute.route) }
     ) {
 
         Row(
@@ -52,7 +57,7 @@ fun ItemListaGrade(
                     .weight(1f)
             ) {
                 Row {
-                    Text("Data: ", color = Color.White)
+//                    Text("Data: ", color = Color.White)
                     Text(
                         DataHoraUtils.formatarData(grade.data.toString()) ?: "N/A",
                         color = Color.White,
@@ -98,5 +103,7 @@ fun GreetingPreview() {
     ItemListaGrade(
         grade = grade,
         onEditarClick = { Log.d(TAG, "Editar clicado") },
-        onDeletarClick = { Log.d(TAG, "Deletar clicado") })
+        onDeletarClick = { Log.d(TAG, "Deletar clicado") },
+        navController = NavHostController(context = LocalContext.current)
+    )
 }
