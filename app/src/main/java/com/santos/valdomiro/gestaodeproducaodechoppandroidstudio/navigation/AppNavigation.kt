@@ -70,8 +70,12 @@ fun AppNavigation(
             }
 
             // ==================== TELAS PRINCIPAIS ====================
-            composable(Route.HomeRoute.route) {
-                HomeScreen()
+            composable(
+                route = "home/{producaoId}",
+                arguments = listOf(navArgument("producaoId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val producaoId = backStackEntry.arguments?.getString("producaoId") ?: return@composable
+                HomeScreen(producaoId = producaoId)
             }
 
             // ==================== BARRIS ====================

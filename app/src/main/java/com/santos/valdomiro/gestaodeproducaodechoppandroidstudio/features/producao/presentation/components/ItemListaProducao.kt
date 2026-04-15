@@ -20,8 +20,10 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.ProducaoEntity
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 
 @Composable
@@ -30,6 +32,7 @@ fun ItemListaProducao(
     onEditarClick: () -> Unit,
     onDeletarClick: () -> Unit,
     onDetalhesClick: () -> Unit,
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -39,6 +42,7 @@ fun ItemListaProducao(
             containerColor = Color(0xFF8E72DB)
         ),
         shape = RoundedCornerShape(8.dp),
+        onClick = { navController.navigate(Route.HomeRoute.criarRota(producao.id!!)) }
     ) {
 
         Row(

@@ -143,7 +143,8 @@ fun ListaProducoesScreen(
                                     onDetalhesClick = {
                                         Toast.makeText(context, "Detalhes", Toast.LENGTH_SHORT)
                                             .show()
-                                    }
+                                    },
+                                    navController = navController
                                 )
                             }
                         }
