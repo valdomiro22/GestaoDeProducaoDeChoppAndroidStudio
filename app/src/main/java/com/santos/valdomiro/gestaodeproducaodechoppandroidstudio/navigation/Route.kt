@@ -21,6 +21,7 @@ sealed class Route(
     data object AdicionarProdutoRoute :
         Route(route = "adicionar-produto", title = "Adicionar Produto")
 
+    data object CalcualrTempoParadaRoute : Route(route = "calcular-tempo-parada", title = "Tempo de parada")
     data object ListaDeBarrisRoute : Route(route = "lista-barris", title = "lista de barris")
     data object ListaDeProdutosRoute : Route(route = "lista-produtos", title = "lista de produtos")
     data object ListaDeGradesRoute : Route(route = "lista-grades", title = "lista de grades")

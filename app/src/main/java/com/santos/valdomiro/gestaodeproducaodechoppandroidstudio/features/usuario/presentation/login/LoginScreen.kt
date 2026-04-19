@@ -52,7 +52,7 @@ fun LoginScreen(
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
-            navController.navigate(Route.ConfiguracoesDeUsuario.route) {
+            navController.navigate(Route.ListaDeGradesRoute.route) {
                 popUpTo(Route.LoginRoute.route) { inclusive = true }
             }
         }

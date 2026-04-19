@@ -33,7 +33,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Rout
 fun AppDrawer(
     selectedRoute: String,
     onItemClick: (Route) -> Unit,
-    onLogoutClick: () -> Unit,
+    onLogoutClick: () -> Unit = {},
 ) {
 
     ModalDrawerSheet(
@@ -46,6 +46,7 @@ fun AppDrawer(
         // Lista de itens do Drawer
         val drawerItems = listOf(
             Route.ListaDeGradesRoute,
+            Route.CalcualrTempoParadaRoute,
         )
 
         drawerItems.forEach { item ->

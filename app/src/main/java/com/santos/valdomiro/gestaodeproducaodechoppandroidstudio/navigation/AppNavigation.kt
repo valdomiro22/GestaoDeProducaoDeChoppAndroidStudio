@@ -8,6 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.screens.CalcularTempoParadaScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.adicionarbarril.AdicionarBarrilScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.atualizarbarril.AtualizarBarrilScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.listadebarris.ListaBarrisScreen
@@ -152,6 +153,9 @@ fun AppNavigation(
             // ==================== OUTRAS ====================
             composable(Route.AdicionarQtHorariaRoute.route) {
                 AdicionarQtHorariaScreen()
+            }
+            composable(Route.CalcualrTempoParadaRoute.route) {
+                CalcularTempoParadaScreen()
             }
         }
     }

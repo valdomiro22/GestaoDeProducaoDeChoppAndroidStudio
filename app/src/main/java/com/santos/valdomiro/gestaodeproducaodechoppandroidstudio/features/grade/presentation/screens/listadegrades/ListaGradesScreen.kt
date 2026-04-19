@@ -10,19 +10,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,12 +37,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.AppDrawer
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.domain.entity.GradeEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.components.ItemListaGrade
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,95 +55,136 @@ fun ListaGradesScreen(
     val state by viewModel.uiState.collectAsState()
     val navController = LocalNavController.current
 
+    // CONFIGURAÇÃO DO DRAWER
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
     LaunchedEffect(Unit) {
         viewModel.getAll()
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Lista de Grades") },   // ← Corrigido: era "Lista de Barris"
-                windowInsets = WindowInsets(0),
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF6450A1),
-                    titleContentColor = Color.White
-                )
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate(Route.AdicionarGradeRoute.route)
-                },
-                containerColor = Color(0xFF6450A1),
-                contentColor = Color.White
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Adicionar Grade"
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            // Este é o conteúdo que aparece quando o menu lateral abre
+            ModalDrawerSheet {
+                AppDrawer(
+                    selectedRoute = Route.HomeRoute.route, // Rota atual
+                    onItemClick = { rotaClicada ->
+                        scope.launch {
+                            drawerState.close() // Fecha primeiro
+                            navController.navigate(rotaClicada.route) {
+                                // 1. Limpa a pilha de navegação até a tela inicial do app
+                                // Isso evita que o "Back" fique voltando pelas telas do Drawer
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
+
+                                // 2. Evita abrir a mesma tela várias vezes se você clicar no menu repetidamente
+                                launchSingleTop = true
+                            }
+                        }
+                    },
                 )
             }
         }
-    ) { innerPadding ->
-        when {
-            state.isLoading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentAlignment = Alignment.Center
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("Lista de Grades") },   // ← Corrigido: era "Lista de Barris"
+                    windowInsets = WindowInsets(0),
+
+                    // Botão para abrir o Drawer
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            scope.launch { drawerState.open() }
+                        }) {
+                            // Troquei o ArrowBack pelo ícone de Menu
+                            Icon(Icons.Default.Menu, tint = Color.White, contentDescription = "Abrir Menu")
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color(0xFF6450A1),
+                        titleContentColor = Color.White
+                    ),
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        navController.navigate(Route.AdicionarGradeRoute.route)
+                    },
+                    containerColor = Color(0xFF6450A1),
+                    contentColor = Color.White
                 ) {
-                    CircularProgressIndicator()
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Adicionar Grade"
+                    )
                 }
             }
-
-            state.isError -> {
-                ErroComponent(
-                    mensagem = (state as? UiState.Error)?.message
-                        ?: "Erro desconhecido ao listar grades"
-                )
-            }
-
-            state.isSuccess -> {
-                val listaGrades =
-                    (state as? UiState.Success<List<GradeEntity>>)?.data ?: emptyList()
-
-                if (listaGrades.isEmpty()) {
+        ) { innerPadding ->
+            when {
+                state.isLoading -> {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("Nenhuma grade encontrada")
+                        CircularProgressIndicator()
                     }
-                } else {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                            .padding(start = 10.dp, top = 8.dp, end = 10.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(
-                            items = listaGrades,
-                            key = { it.id ?: it.numero }
-                        ) { grade ->
-                            Card {
-                                ItemListaGrade(
-                                    grade = grade,
-                                    navController = navController,
-                                    onDeletarClick = { viewModel.deleteGrade(grade.id!!) },
-                                    onEditarClick = {
-                                        Log.i(
-                                            TAG,
-                                            "ListaGradesScreen: ID para atualizar: ${grade.id}"
-                                        )
-                                        navController.navigate(
-                                            Route.AtualizarGradeRoute.criarRota(grade.id!!)
-                                        )
-                                    }
-                                )
+                }
+
+                state.isError -> {
+                    ErroComponent(
+                        mensagem = (state as? UiState.Error)?.message
+                            ?: "Erro desconhecido ao listar grades"
+                    )
+                }
+
+                state.isSuccess -> {
+                    val listaGrades =
+                        (state as? UiState.Success<List<GradeEntity>>)?.data ?: emptyList()
+
+                    if (listaGrades.isEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(innerPadding),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("Nenhuma grade encontrada")
+                        }
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(innerPadding)
+                                .padding(start = 10.dp, top = 8.dp, end = 10.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(
+                                items = listaGrades,
+                                key = { it.id ?: it.numero }
+                            ) { grade ->
+                                Card {
+                                    ItemListaGrade(
+                                        grade = grade,
+                                        navController = navController,
+                                        onDeletarClick = { viewModel.deleteGrade(grade.id!!) },
+                                        onEditarClick = {
+                                            Log.i(
+                                                TAG,
+                                                "ListaGradesScreen: ID para atualizar: ${grade.id}"
+                                            )
+                                            navController.navigate(
+                                                Route.AtualizarGradeRoute.criarRota(grade.id!!)
+                                            )
+                                        }
+                                    )
+                                }
                             }
                         }
                     }

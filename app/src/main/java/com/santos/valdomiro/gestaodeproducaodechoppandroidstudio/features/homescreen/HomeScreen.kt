@@ -87,7 +87,7 @@ fun HomeScreen(
     val drawerViewModel: DrawerViewModel = hiltViewModel()
     val drawerStateLogout by drawerViewModel.uiState.collectAsState()
 
-    // --- 1. CONFIGURAÇÃO DO DRAWER ---
+    // CONFIGURAÇÃO DO DRAWER
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -135,7 +135,6 @@ fun HomeScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-
                     title = {
                         Text(
                             text = "Itaipava 50L",
@@ -144,7 +143,7 @@ fun HomeScreen(
                         )
                     },
 
-                    // --- 3. BOTÃO PARA ABRIR O DRAWER ---
+                    // Botão para abrir o Drawer
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch { drawerState.open() }
