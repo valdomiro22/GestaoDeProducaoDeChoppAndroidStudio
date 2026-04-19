@@ -44,12 +44,11 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Loca
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdicionarProducaoScreen(
+    gradeId: String,
     producaoViewModel: AdicionarProducaoViewModel = hiltViewModel(),
     produtosViewModel: ListaProdutosViewModel = hiltViewModel(),
     barrisViewModel: ListaBarrisViewModel = hiltViewModel()
 ) {
-    val gradeId = "38959c38-55d0-42b1-a8ae-fb112c29d515"
-
     val producaoState by producaoViewModel.uiState.collectAsState()
     val produtosUiState by produtosViewModel.uiState.collectAsState()
     val barrisUiState by barrisViewModel.uiState.collectAsState()

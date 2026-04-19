@@ -21,8 +21,13 @@ sealed class Route(
     object ListaDeProdutosRoute : Route(route = "lista-produtos", title = "lista de produtos")
     object ListaDeGradesRoute : Route(route = "lista-grades", title = "lista de grades")
     object AdicionarGradeRoute : Route(route = "adicionar-grade", title = "Adicionar grade")
-    object AdicionarProducaoRoute : Route(route = "adicionar-producao", title = "Adicionar produção")
     object AdicionarQtHorariaRoute : Route(route = "adicionar-qthoraria", title = "Adicionar Qt Horária")
+
+//    object AdicionarProducaoRoute : Route(route = "adicionar-producao", title = "Adicionar produção")
+
+    object AdicionarProducaoRoute : Route(route = "adicionar-producao/{gradeId}", title = "Adicionar produção") {
+        fun criarRota(gradeId: String) = "adicionar-producao/$gradeId"  // Uma função ajudante para montar a rota na hora do clique
+    }
 
     object HomeRoute : Route(route = "home/{producaoId}", title = "Home") {
         fun criarRota(id: String) = "home/$id"  // Uma função ajudante para montar a rota na hora do clique

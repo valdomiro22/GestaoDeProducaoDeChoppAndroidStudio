@@ -131,9 +131,16 @@ fun AppNavigation(
                 val gradeId = backStackEntry.arguments?.getString("gradeId") ?: return@composable
                 ListaProducoesScreen(gradeId = gradeId)
             }
-            composable(Route.AdicionarProducaoRoute.route) {
-                AdicionarProducaoScreen()
+            composable(
+                route = "adicionar-producao/{gradeId}",
+                arguments = listOf(navArgument("gradeId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val gradeId = backStackEntry.arguments?.getString("gradeId") ?: return@composable
+                AdicionarProducaoScreen(gradeId = gradeId)
             }
+//            composable(Route.AdicionarProducaoRoute.route) {
+//                AdicionarProducaoScreen()
+//            }
             composable(
                 route = "atualizar_producao/{producaoId}",
                 arguments = listOf(navArgument("producaoId") { type = NavType.StringType })

@@ -68,7 +68,7 @@ fun ListaProducoesScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(Route.AdicionarProducaoRoute.route)
+                    navController.navigate(Route.AdicionarProducaoRoute.criarRota(gradeId = gradeId))
                 },
                 containerColor = Color(0xFF6450A1),
                 contentColor = Color.White
