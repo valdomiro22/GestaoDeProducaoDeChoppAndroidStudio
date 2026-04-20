@@ -61,6 +61,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.componen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.AppDrawer
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.DrawerViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.ProducaoEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.buscarproducao.BuscarProducaoViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.entity.Turno
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
@@ -86,6 +87,9 @@ fun HomeScreen(
     // CONFIGURAÇÃO DO DRAWER
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    // Para o Dialog
+    var showInfoDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         buscarProducaoViewModel.buscarProducao(producaoId)
@@ -262,8 +266,10 @@ fun HomeScreen(
                         // Seção de horários do turno selecionado
                         val listaDeHorarios = turnoAtual.horarios.values.toList()
                         QuantidadeHoraria(
-                            horarios = listaDeHorarios, 
-                            onClick = {
+                            horarios = listaDeHorarios,
+                            producao = producao,
+                            onHorarioClick = {
+                                showInfoDialog = true
                             }
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -277,6 +283,20 @@ fun HomeScreen(
                             }
                         )
                     }
+
+                    if (showInfoDialog) {
+                        AddQtHorariaDialog(
+                            producao = producao,
+                            onConfirm = {
+                                Toast.makeText(context, "Ok", Toast.LENGTH_SHORT).show()
+                            },
+                            onDismiss = {
+                                showInfoDialog = false
+                            },
+                        )
+                    }
+
+
                 }
 
                 state.isLoading -> {
@@ -296,19 +316,28 @@ fun HomeScreen(
                             ?: "Erro desconhecido ao buscar produção"
                     )
                 }
+
+
             }
+
+
         }
     }
 }
 
 @Composable
-fun QuantidadeHoraria(horarios: List<String>, onClick: () -> Unit) {
+fun QuantidadeHoraria(
+    horarios: List<String>,
+    onHorarioClick: () -> Unit,
+    producao: ProducaoEntity,
+    modifier: Modifier = Modifier
+) {
     Box() {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(4), // 4 colunas costumam ler melhor que 5 em telas menores
+            columns = GridCells.Fixed(4),
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(max = 230.dp), // heightIn é melhor que height fixo
+                .heightIn(max = 230.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
@@ -317,9 +346,9 @@ fun QuantidadeHoraria(horarios: List<String>, onClick: () -> Unit) {
                     modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
                         .background(Color(0xFFF8F9FA))
-                        .clickable { onClick() }
                         .border(1.dp, Color(0xFFE9ECEF), RoundedCornerShape(8.dp))
-                        .padding(8.dp),
+                        .padding(8.dp)
+                        .clickable { onHorarioClick() },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
