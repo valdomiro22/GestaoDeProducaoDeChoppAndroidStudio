@@ -6,11 +6,13 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quanti
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.entity.Turno
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.usecase.InserQtHorariaUseCase
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.mappers.toUserMessage
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.StringUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,8 +24,22 @@ class AdicionarQtHorariaViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     fun onQuantidadeChanged(value: String) {
-        val filtrado = value.filter { it.isDigit() }
+        val filtrado = value.filterIndexed { index, char ->
+            char.isDigit() || (index == 0 && char == '-')
+        }
         _uiState.update { it.copy(quantidade = filtrado, erroQuantidade = null) }
+    }
+
+    fun setProducaoId(value: String) {
+        _uiState.update { it.copy(producaoId = value) }
+    }
+
+    fun setHorario(value: String) {
+        _uiState.update { it.copy(horarioReferente = value) }
+    }
+
+    fun getQuantidade(): Int {
+        return _uiState.value.quantidade.toIntOrNull() ?: 0
     }
 
     fun inserir() {
@@ -53,11 +69,12 @@ class AdicionarQtHorariaViewModel @Inject constructor(
                 return@launch
             }
 
+            val horarioReferente = StringUtils.estrairHorarioReferente(currentState.horarioReferente!!)
+
             val quantidade = QuantidadeHorariaEntity(
                 turnoId = Turno.TURNO_A.id,  // TODO - Tornar dinâmico
-                producaoId = "8f05d9b0-4362-4b01-85a9-19cd22f756d7", // TODO - Tornar dinâmico
-//                producaoId = currentState.producaoId!!,
-                horarioReferente = 800, // TODO - Tornar dinâmico
+                producaoId = currentState.producaoId!!,
+                horarioReferente = horarioReferente,
                 quantidade = validadeInt
             )
 

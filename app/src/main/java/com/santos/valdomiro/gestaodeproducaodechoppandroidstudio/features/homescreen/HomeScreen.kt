@@ -89,7 +89,7 @@ fun HomeScreen(
     val scope = rememberCoroutineScope()
 
     // Para o Dialog
-    var showInfoDialog by remember { mutableStateOf(false) }
+//    var showInfoDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         buscarProducaoViewModel.buscarProducao(producaoId)
@@ -269,7 +269,7 @@ fun HomeScreen(
                             horarios = listaDeHorarios,
                             producao = producao,
                             onHorarioClick = {
-                                showInfoDialog = true
+//                                showInfoDialog = true
                             }
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -284,17 +284,17 @@ fun HomeScreen(
                         )
                     }
 
-                    if (showInfoDialog) {
-                        AddQtHorariaDialog(
-                            producao = producao,
-                            onConfirm = {
-                                Toast.makeText(context, "Ok", Toast.LENGTH_SHORT).show()
-                            },
-                            onDismiss = {
-                                showInfoDialog = false
-                            },
-                        )
-                    }
+//                    if (showInfoDialog) {
+//                        AddQtHorariaDialog(
+//                            producao = producao,
+//                            onConfirm = {
+//                                Toast.makeText(context, "Ok", Toast.LENGTH_SHORT).show()
+//                            },
+//                            onDismiss = {
+//                                showInfoDialog = false
+//                            },
+//                        )
+//                    }
 
 
                 }
@@ -325,14 +325,63 @@ fun HomeScreen(
     }
 }
 
+//@Composable
+//fun QuantidadeHoraria(
+//    horarios: List<String>,
+//    onHorarioClick: () -> Unit,
+//    producao: ProducaoEntity,
+//    modifier: Modifier = Modifier
+//) {
+//    Box() {
+//        LazyVerticalGrid(
+//            columns = GridCells.Fixed(4),
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .heightIn(max = 230.dp),
+//            horizontalArrangement = Arrangement.spacedBy(8.dp),
+//            verticalArrangement = Arrangement.spacedBy(8.dp),
+//        ) {
+//            items(horarios) { horario ->
+//                Column(
+//                    modifier = Modifier
+//                        .clip(RoundedCornerShape(8.dp))
+//                        .background(Color(0xFFF8F9FA))
+//                        .border(1.dp, Color(0xFFE9ECEF), RoundedCornerShape(8.dp))
+//                        .padding(8.dp)
+//                        .clickable { onHorarioClick() },
+//                    horizontalAlignment = Alignment.CenterHorizontally
+//                ) {
+//                    Text(
+//                        text = horario,
+//                        fontSize = 14.sp,
+//                        fontWeight = FontWeight.Bold,
+//                        color = Color(0xFF495057)
+//                    )
+//                    Text(
+//                        text = "100", // Unidade ou quantidade sutil
+//                        fontSize = 14.sp,
+//                        color = Color(0xFF0BA884),
+//                        fontWeight = FontWeight.Medium
+//                    )
+//                }
+//            }
+//        }
+//    }
+//}
+
 @Composable
 fun QuantidadeHoraria(
     horarios: List<String>,
-    onHorarioClick: () -> Unit,
     producao: ProducaoEntity,
+    onHorarioClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box() {
+    val context = LocalContext.current
+    // Estados internos para controlar o Dialog e qual horário foi clicado
+    var showInfoDialog by remember { mutableStateOf(false) }
+    var horarioSelecionado by remember { mutableStateOf("") }
+
+    Box(modifier = modifier) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
             modifier = Modifier
@@ -347,8 +396,12 @@ fun QuantidadeHoraria(
                         .clip(RoundedCornerShape(8.dp))
                         .background(Color(0xFFF8F9FA))
                         .border(1.dp, Color(0xFFE9ECEF), RoundedCornerShape(8.dp))
-                        .padding(8.dp)
-                        .clickable { onHorarioClick() },
+                        .clickable {
+                            // Ao clicar, salvamos o horário e abrimos o dialog
+                            horarioSelecionado = horario
+                            showInfoDialog = true
+                        }
+                        .padding(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
@@ -358,7 +411,7 @@ fun QuantidadeHoraria(
                         color = Color(0xFF495057)
                     )
                     Text(
-                        text = "100", // Unidade ou quantidade sutil
+                        text = "100",
                         fontSize = 14.sp,
                         color = Color(0xFF0BA884),
                         fontWeight = FontWeight.Medium
@@ -366,6 +419,23 @@ fun QuantidadeHoraria(
                 }
             }
         }
+    }
+
+    // O Dialog agora fica "escutando" o estado interno do componente
+    if (showInfoDialog) {
+        AddQtHorariaDialog(
+            producao = producao,
+            // Aqui você passaria o horarioSelecionado para o seu Dialog
+            // Supondo que seu Dialog aceite um parâmetro 'horario'
+             horario = horarioSelecionado,
+            onConfirm = {
+                showInfoDialog = false
+                Toast.makeText(context, "Salvo para o horário: $horarioSelecionado", Toast.LENGTH_SHORT).show()
+            },
+            onDismiss = {
+                showInfoDialog = false
+            },
+        )
     }
 }
 
