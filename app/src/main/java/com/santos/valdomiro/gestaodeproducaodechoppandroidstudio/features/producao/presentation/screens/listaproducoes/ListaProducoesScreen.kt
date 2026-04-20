@@ -31,6 +31,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +43,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.ProducaoEntity
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.components.InfoProducaoDialog
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.components.ItemListaProducao
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
@@ -56,6 +60,8 @@ fun ListaProducoesScreen(
     val context = LocalContext.current
     val state by viewModel.uiState.collectAsState()
     val navController = LocalNavController.current
+
+    var showInfoDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.getAllDaGrade(gradeId)
@@ -166,11 +172,20 @@ fun ListaProducoesScreen(
                                         )
                                     },
                                     onDetalhesClick = {
-                                        Toast.makeText(context, "Detalhes", Toast.LENGTH_SHORT)
-                                            .show()
+                                        showInfoDialog = true
                                     },
                                     navController = navController
                                 )
+
+                                if (showInfoDialog) {
+                                    InfoProducaoDialog(
+                                        producao = producao,
+                                        onConfirm = {
+                                            Toast.makeText(context, "Ok", Toast.LENGTH_SHORT)
+                                                .show() },
+                                        onDismiss = { showInfoDialog = false },
+                                    )
+                                }
                             }
                         }
                     }

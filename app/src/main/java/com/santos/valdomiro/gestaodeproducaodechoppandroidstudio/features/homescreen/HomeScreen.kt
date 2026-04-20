@@ -261,38 +261,11 @@ fun HomeScreen(
 
                         // Seção de horários do turno selecionado
                         val listaDeHorarios = turnoAtual.horarios.values.toList()
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(4), // 4 colunas costumam ler melhor que 5 em telas menores
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(max = 230.dp), // heightIn é melhor que height fixo
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                        ) {
-                            items(listaDeHorarios) { horario ->
-                                Column(
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .background(Color(0xFFF8F9FA))
-                                        .border(1.dp, Color(0xFFE9ECEF), RoundedCornerShape(8.dp))
-                                        .padding(8.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Text(
-                                        text = horario,
-                                        fontSize = 14.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color(0xFF495057)
-                                    )
-                                    Text(
-                                        text = "100", // Unidade ou quantidade sutil
-                                        fontSize = 14.sp,
-                                        color = Color(0xFF0BA884),
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                }
+                        QuantidadeHoraria(
+                            horarios = listaDeHorarios, 
+                            onClick = {
                             }
-                        }
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
 
                         // Informações para o final de produção
@@ -321,6 +294,45 @@ fun HomeScreen(
                     ErroComponent(
                         mensagem = (state as? UiState.Error)?.message
                             ?: "Erro desconhecido ao buscar produção"
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun QuantidadeHoraria(horarios: List<String>, onClick: () -> Unit) {
+    Box() {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(4), // 4 colunas costumam ler melhor que 5 em telas menores
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(max = 230.dp), // heightIn é melhor que height fixo
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            items(horarios) { horario ->
+                Column(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color(0xFFF8F9FA))
+                        .clickable { onClick() }
+                        .border(1.dp, Color(0xFFE9ECEF), RoundedCornerShape(8.dp))
+                        .padding(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = horario,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF495057)
+                    )
+                    Text(
+                        text = "100", // Unidade ou quantidade sutil
+                        fontSize = 14.sp,
+                        color = Color(0xFF0BA884),
+                        fontWeight = FontWeight.Medium
                     )
                 }
             }

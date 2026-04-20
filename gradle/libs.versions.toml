@@ -15,6 +15,7 @@ material3Lint = "1.4.0"
 foundationLayout = "1.10.6"
 navigationCompose = "2.9.7"
 material3 = "1.4.0"
+runtime = "1.10.6"
 
 [libraries]
 # Hilt
@@ -43,6 +44,7 @@ androidx-compose-material3-lint = { group = "androidx.compose.material3", name =
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
