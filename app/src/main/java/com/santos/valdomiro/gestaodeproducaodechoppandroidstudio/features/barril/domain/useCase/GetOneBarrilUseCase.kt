@@ -4,7 +4,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.repository.BarrilRepository
 import javax.inject.Inject
 
-class GetUmBarrilUseCase @Inject constructor(
+class GetOneBarrilUseCase @Inject constructor(
     private val barrilRepository: BarrilRepository
 ) {
 

@@ -21,6 +21,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produc
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.atualizarproducao.AtualizarProducaoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.atualizarproducao.AtualizarProducaoState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.listaproducoes.ListaProducoesScreen
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.simularfimproducao.SimularFimProducaoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.adicionarproduto.AdicionarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.atualizarproduto.AtualizarProdutoScreen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produto.presentation.screens.listadeprodutos.ListaProdutosScreen
@@ -148,6 +149,13 @@ fun AppNavigation(
             ) { backStackEntry ->
                 val producaoId = backStackEntry.arguments?.getString("producaoId") ?: return@composable
                 AtualizarProducaoScreen(producaoId = producaoId)
+            }
+            composable(
+                route = "simular-fim-producao/{producaoId}",
+                arguments = listOf(navArgument("producaoId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val producaoId = backStackEntry.arguments?.getString("producaoId") ?: return@composable
+                SimularFimProducaoScreen(producaoId = producaoId)
             }
 
             // ==================== OUTRAS ====================

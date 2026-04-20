@@ -72,4 +72,10 @@ sealed class Route(
             "atualizar_producao/$id"  // Uma função ajudante para montar a rota na hora do clique
     }
 
+    data object SimularFimProducaoRoute :
+        Route(route = "simular-fim-producao/{producaoId}", title = "Fim de produção") {
+        fun criarRota(id: String) =
+            "simular-fim-producao/$id"  // Uma função ajudante para montar a rota na hora do clique
+    }
+
 }

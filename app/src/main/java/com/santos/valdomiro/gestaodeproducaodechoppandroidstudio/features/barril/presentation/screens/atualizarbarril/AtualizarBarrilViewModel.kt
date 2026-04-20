@@ -3,7 +3,7 @@ package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.entity.BarrilEntity
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.useCase.GetUmBarrilUseCase
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.useCase.GetOneBarrilUseCase
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.domain.useCase.UpdateBarrilUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AtualizarBarrilViewModel @Inject constructor(
-    private val getBarrilByIdUseCase: GetUmBarrilUseCase,
+    private val getBarrilByIdUseCase: GetOneBarrilUseCase,
     private val updateBarrilUseCase: UpdateBarrilUseCase
 ) : ViewModel() {
 

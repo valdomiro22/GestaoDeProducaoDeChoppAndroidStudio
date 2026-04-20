@@ -1,4 +1,4 @@
-package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.atualizarbarril
+package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.buscarbarril
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,27 +12,25 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BuscarUmBarrilViewModel @Inject constructor(
+class BuscarBarrilViewModel @Inject constructor(
     private val getOneBarrilUseCase: GetOneBarrilUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<BarrilEntity>>(UiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    fun getBarril(barrilId: String) {
+    fun buscarBarril(barrilId: String) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
 
-            val result = getOneBarrilUseCase(barrilId)
-
-            result.onSuccess { barril ->
-                _uiState.value = UiState.Success(barril)
-            }.onFailure {
-                val mensagem = it.message ?: "Erro ao carregar lista de barris"
-                _uiState.value = UiState.Error(mensagem)
-            }
+            getOneBarrilUseCase(id = barrilId).fold(
+                onSuccess = { barril ->
+                    _uiState.value = UiState.Success(barril)
+                },
+                onFailure = { erro ->
+                    _uiState.value = UiState.Error(erro.message ?: "Erro ao buscar Barril")
+                }
+            )
         }
-
     }
-
 }
