@@ -8,4 +8,5 @@ interface QuantidadeHorariaRemoteDatasource {
     suspend fun getQtHoraria(id: String): QuantidadeHorariaDto?
     suspend fun deleteQtHoraria(id: String)
     suspend fun getAllQtHorarias(): List<QuantidadeHorariaDto>
+    suspend fun getAllQtHorariasDaProducao(producaoId: String): List<QuantidadeHorariaDto>
 }

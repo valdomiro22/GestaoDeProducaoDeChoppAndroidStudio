@@ -6,7 +6,7 @@ data class QuantidadeHorariaEntity(
     val id: String? = null,
     val turnoId: Int = 1,
     val producaoId: String = "",
-    val horarioReferente: Int = 0,
+    val horarioReferente: String = "",
     val quantidade: Int = -1,
     val quantidadeAcumulada: Int = -1,
     val horario: LocalDate = LocalDate.now(),

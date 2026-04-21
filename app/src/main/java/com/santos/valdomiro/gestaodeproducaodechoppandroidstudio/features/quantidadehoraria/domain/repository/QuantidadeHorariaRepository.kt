@@ -8,4 +8,5 @@ interface QuantidadeHorariaRepository {
     suspend fun getQtHoraria(id: String): Result<QuantidadeHorariaEntity?>
     suspend fun deleteQtHoraria(id: String): Result<Unit>
     suspend fun getAllQtHorarias(): Result<List<QuantidadeHorariaEntity>>
+    suspend fun getAllQtHorariasDaProducao(producaoId: String): Result<List<QuantidadeHorariaEntity>>
 }

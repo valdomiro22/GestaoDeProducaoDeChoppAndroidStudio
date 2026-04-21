@@ -16,6 +16,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -39,7 +40,8 @@ fun AddQtHorariaDialog(
     horario: String,
     producao: ProducaoEntity,
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit = {},
+    onSuccess: () -> Unit,
+    onConfirm: () -> Unit,
     viewModel: AdicionarQtHorariaViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -57,6 +59,15 @@ fun AddQtHorariaDialog(
         val novaQuantidade = qtAtual - valor
         Log.d(TAG, "AddQtHorariaDialog: Nova Quantidade: $novaQuantidade")
         viewModel.onQuantidadeChanged(novaQuantidade.toString())
+    }
+
+    // Fica de olho no estado de sucesso do ViewModel de inserção
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess) {
+            onSuccess() // Avisa a tela principal para recarregar
+            onDismiss() // Fecha o dialog
+            viewModel.resetState()
+        }
     }
 
     AlertDialog(

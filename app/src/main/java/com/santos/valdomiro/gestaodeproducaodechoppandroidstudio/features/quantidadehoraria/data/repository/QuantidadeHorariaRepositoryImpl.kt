@@ -59,4 +59,14 @@ class QuantidadeHorariaRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun getAllQtHorariasDaProducao(producaoId: String): Result<List<QuantidadeHorariaEntity>> {
+        return try {
+            val dtos = datasource.getAllQtHorariasDaProducao(producaoId = producaoId)
+            val entities = dtos.map { it.toEntity() }
+            Result.success(entities)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

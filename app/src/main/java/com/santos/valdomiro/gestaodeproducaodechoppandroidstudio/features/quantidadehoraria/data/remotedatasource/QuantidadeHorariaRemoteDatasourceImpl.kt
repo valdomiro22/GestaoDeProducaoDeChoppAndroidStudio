@@ -69,6 +69,18 @@ class QuantidadeHorariaRemoteDatasourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllQtHorariasDaProducao(producaoId: String): List<QuantidadeHorariaDto> {
+        return mapearExecution {
+            val snapshot = firestore
+                .collection(qtHorariaCollection)
+                .whereEqualTo("producaoId", producaoId)
+                .get()
+                .await()
+
+            snapshot.documents.mapNotNull { it.toObject(QuantidadeHorariaDto::class.java) }
+        }
+    }
+
     /**
      * Função auxiliar para centralizar o tratamento de erros do Firebase.
      * Ela "traduz" exceções técnicas para exceções de domínio.

@@ -63,7 +63,9 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.D
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.ProducaoEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.buscarproducao.BuscarProducaoViewModel
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.entity.QuantidadeHorariaEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.entity.Turno
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.presentation.screens.listaqthorariaproducao.ListaQtHorariaDaProducaoViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 import kotlinx.coroutines.launch
@@ -74,6 +76,7 @@ fun HomeScreen(
     producaoId: String,
     viewModel: HomeViewModel = hiltViewModel(),
     buscarProducaoViewModel: BuscarProducaoViewModel = hiltViewModel(),
+    listaQtViewModel: ListaQtHorariaDaProducaoViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
@@ -88,11 +91,14 @@ fun HomeScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    val qtHorariaState by listaQtViewModel.uiState.collectAsState()
+
     // Para o Dialog
 //    var showInfoDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         buscarProducaoViewModel.buscarProducao(producaoId)
+        listaQtViewModel.carregarDadosDaProducao(producaoId)
     }
 
     LaunchedEffect(drawerStateLogout.isSuccess) {
@@ -210,6 +216,9 @@ fun HomeScreen(
                             .padding(10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        val mapaQuantidades =
+                            (qtHorariaState as? UiState.Success)?.data ?: emptyMap()
+
                         // Seção de status da produção
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -268,8 +277,9 @@ fun HomeScreen(
                         QuantidadeHoraria(
                             horarios = listaDeHorarios,
                             producao = producao,
-                            onHorarioClick = {
-//                                showInfoDialog = true
+                            quantidades = mapaQuantidades,
+                            onRefresh = {
+                                listaQtViewModel.carregarDadosDaProducao(producaoId)
                             }
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -283,20 +293,6 @@ fun HomeScreen(
                             }
                         )
                     }
-
-//                    if (showInfoDialog) {
-//                        AddQtHorariaDialog(
-//                            producao = producao,
-//                            onConfirm = {
-//                                Toast.makeText(context, "Ok", Toast.LENGTH_SHORT).show()
-//                            },
-//                            onDismiss = {
-//                                showInfoDialog = false
-//                            },
-//                        )
-//                    }
-
-
                 }
 
                 state.isLoading -> {
@@ -325,55 +321,12 @@ fun HomeScreen(
     }
 }
 
-//@Composable
-//fun QuantidadeHoraria(
-//    horarios: List<String>,
-//    onHorarioClick: () -> Unit,
-//    producao: ProducaoEntity,
-//    modifier: Modifier = Modifier
-//) {
-//    Box() {
-//        LazyVerticalGrid(
-//            columns = GridCells.Fixed(4),
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .heightIn(max = 230.dp),
-//            horizontalArrangement = Arrangement.spacedBy(8.dp),
-//            verticalArrangement = Arrangement.spacedBy(8.dp),
-//        ) {
-//            items(horarios) { horario ->
-//                Column(
-//                    modifier = Modifier
-//                        .clip(RoundedCornerShape(8.dp))
-//                        .background(Color(0xFFF8F9FA))
-//                        .border(1.dp, Color(0xFFE9ECEF), RoundedCornerShape(8.dp))
-//                        .padding(8.dp)
-//                        .clickable { onHorarioClick() },
-//                    horizontalAlignment = Alignment.CenterHorizontally
-//                ) {
-//                    Text(
-//                        text = horario,
-//                        fontSize = 14.sp,
-//                        fontWeight = FontWeight.Bold,
-//                        color = Color(0xFF495057)
-//                    )
-//                    Text(
-//                        text = "100", // Unidade ou quantidade sutil
-//                        fontSize = 14.sp,
-//                        color = Color(0xFF0BA884),
-//                        fontWeight = FontWeight.Medium
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
-
 @Composable
 fun QuantidadeHoraria(
     horarios: List<String>,
     producao: ProducaoEntity,
-    onHorarioClick: () -> Unit,
+    quantidades: Map<String, QuantidadeHorariaEntity>,
+    onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -381,60 +334,81 @@ fun QuantidadeHoraria(
     var showInfoDialog by remember { mutableStateOf(false) }
     var horarioSelecionado by remember { mutableStateOf("") }
 
-    Box(modifier = modifier) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(4),
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(max = 230.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(horarios) { horario ->
-                Column(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color(0xFFF8F9FA))
-                        .border(1.dp, Color(0xFFE9ECEF), RoundedCornerShape(8.dp))
-                        .clickable {
-                            // Ao clicar, salvamos o horário e abrimos o dialog
-                            horarioSelecionado = horario
-                            showInfoDialog = true
-                        }
-                        .padding(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = horario,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF495057)
-                    )
-                    Text(
-                        text = "100",
-                        fontSize = 14.sp,
-                        color = Color(0xFF0BA884),
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-            }
+
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(4),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(max = 230.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(horarios) { horario ->
+            val quantidadeObjeto = quantidades[horario]
+            val valorExibido = quantidadeObjeto?.quantidade?.toString() ?: "0"
+
+            CardHorario(
+                modifier = Modifier
+                    .clickable {
+                        horarioSelecionado = horario
+                        showInfoDialog = true
+                    },
+                horario = horario,
+                quantidade = valorExibido,
+            )
         }
     }
 
-    // O Dialog agora fica "escutando" o estado interno do componente
+// O Dialog agora fica "escutando" o estado interno do componente
     if (showInfoDialog) {
         AddQtHorariaDialog(
             producao = producao,
             // Aqui você passaria o horarioSelecionado para o seu Dialog
             // Supondo que seu Dialog aceite um parâmetro 'horario'
-             horario = horarioSelecionado,
+            horario = horarioSelecionado,
             onConfirm = {
                 showInfoDialog = false
-                Toast.makeText(context, "Salvo para o horário: $horarioSelecionado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Salvo para o horário: $horarioSelecionado",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            onSuccess = {
+                onRefresh()
             },
             onDismiss = {
                 showInfoDialog = false
             },
+
+        )
+    }
+}
+
+@Composable
+fun CardHorario(
+    modifier: Modifier = Modifier,
+                horario: String, quantidade: String) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFFF8F9FA))
+            .border(1.dp, Color(0xFFE9ECEF), RoundedCornerShape(8.dp))
+            .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = horario,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF495057)
+        )
+        Text(
+            text = quantidade,
+            fontSize = 14.sp,
+            color = Color(0xFF0BA884),
+            fontWeight = FontWeight.Medium
         )
     }
 }

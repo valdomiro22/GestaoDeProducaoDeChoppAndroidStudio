@@ -69,12 +69,10 @@ class AdicionarQtHorariaViewModel @Inject constructor(
                 return@launch
             }
 
-            val horarioReferente = StringUtils.estrairHorarioReferente(currentState.horarioReferente!!)
-
             val quantidade = QuantidadeHorariaEntity(
                 turnoId = Turno.TURNO_A.id,  // TODO - Tornar dinâmico
                 producaoId = currentState.producaoId!!,
-                horarioReferente = horarioReferente,
+                horarioReferente = currentState.horarioReferente!!,  // TODO - Fazer validação depois
                 quantidade = validadeInt
             )
 
@@ -98,5 +96,18 @@ class AdicionarQtHorariaViewModel @Inject constructor(
 
         _uiState.update { newState }
         return isValid;
+    }
+
+    fun resetState() {
+        _uiState.update {
+            it.copy(
+                quantidade = "",
+                horarioReferente = null,
+                isLoading = false,
+                isSuccess = false,
+                erroQuantidade = null,
+                erro = null
+            )
+        }
     }
 }
