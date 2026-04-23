@@ -16,7 +16,6 @@ class ListaQtHorariaDaProducaoViewModel @Inject constructor(
     private val getQtHorariaDaProducao: GetAllQtHorariaDaProducaoUseCase
 ) : ViewModel() {
 
-    // A chave (String) será o seu horarioReferente (ex: "09:00")
     private val _uiState = MutableStateFlow<UiState<Map<String, QuantidadeHorariaEntity>>>(UiState.Loading)
     val uiState = _uiState.asStateFlow()
 
@@ -27,9 +26,21 @@ class ListaQtHorariaDaProducaoViewModel @Inject constructor(
             val result = getQtHorariaDaProducao(producaoId = producaoId)
 
             result.onSuccess { lista ->
-                // Transforma a lista em um Mapa para busca rápida na UI
-                val mapaDeHorarios = lista.associateBy { it.horarioReferente }
-                _uiState.value = UiState.Success(mapaDeHorarios)
+                // 1. Agrupamos a lista por horário: Map<String, List<QuantidadeHorariaEntity>>
+                val mapaAgrupado = lista.groupBy { it.horarioReferente }
+
+                // 2. Transformamos os valores (listas) no somatório das quantidades
+                val mapaSomado = mapaAgrupado.mapValues { entry ->
+                    val listaDoHorario = entry.value
+
+                    // Pegamos o primeiro item como referência para manter os IDs e outros campos
+                    // mas atualizamos a quantidade com a soma de todos os itens daquele horário
+                    listaDoHorario.first().copy(
+                        quantidade = listaDoHorario.sumOf { it.quantidade }
+                    )
+                }
+
+                _uiState.value = UiState.Success(mapaSomado)
             }.onFailure {
                 val mensagem = it.message ?: "Erro ao carregar quantidades"
                 _uiState.value = UiState.Error(mensagem)
