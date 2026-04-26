@@ -2,22 +2,24 @@ package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.usecase.GetOneProducaoUseCase
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.usecase.UpdateProducaoUseCase
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.entity.QuantidadeHorariaEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.entity.Turno
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.usecase.InserQtHorariaUseCase
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.usuario.presentation.common.mappers.toUserMessage
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.StringUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class AdicionarQtHorariaViewModel @Inject constructor(
-    private val insertQtHorariaUseCase: InserQtHorariaUseCase
+    private val insertQtHorariaUseCase: InserQtHorariaUseCase,
+    private val getUmaProducaoUseCase: GetOneProducaoUseCase,
+    private val updateProducaoUseCase: UpdateProducaoUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AdicionarQtHorariaState())
@@ -78,6 +80,16 @@ class AdicionarQtHorariaViewModel @Inject constructor(
 
             val result = insertQtHorariaUseCase(quantidade)
             result.onSuccess {
+                val producaoResult = getUmaProducaoUseCase(currentState.producaoId)
+
+                producaoResult.onSuccess { producao ->
+                    val qtAnterior = producao.quantidadeProduzida
+                    val novaQuantidade = qtAnterior + validadeInt
+                    val producaoAtualizada = producao.copy(quantidadeProduzida = novaQuantidade)
+
+                    updateProducaoUseCase(id = producao.id!!, producao = producaoAtualizada)
+                }
+
                 _uiState.update { it.copy(isLoading = false, isSuccess = true) }
             }.onFailure { error ->
                 _uiState.update { it.copy(isLoading = false, erro = error.toUserMessage()) }

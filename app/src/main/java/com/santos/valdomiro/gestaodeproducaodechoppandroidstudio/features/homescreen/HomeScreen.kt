@@ -280,6 +280,7 @@ fun HomeScreen(
                             quantidades = mapaQuantidades,
                             onRefresh = {
                                 listaQtViewModel.carregarDadosDaProducao(producaoId)
+                                buscarProducaoViewModel.buscarProducao(producaoId)
                             }
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -382,14 +383,15 @@ fun QuantidadeHoraria(
                 showInfoDialog = false
             },
 
-        )
+            )
     }
 }
 
 @Composable
 fun CardHorario(
     modifier: Modifier = Modifier,
-                horario: String, quantidade: String) {
+    horario: String, quantidade: String
+) {
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
