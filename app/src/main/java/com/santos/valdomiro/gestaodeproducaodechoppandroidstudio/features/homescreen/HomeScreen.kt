@@ -61,7 +61,9 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.componen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.AppDrawer
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.DrawerViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.buscarbarril.BuscarBarrilViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.ProducaoEntity
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.components.ControleDoBuffer
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.buscarproducao.BuscarProducaoViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.entity.QuantidadeHorariaEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.quantidadehoraria.domain.entity.Turno
@@ -76,7 +78,8 @@ fun HomeScreen(
     producaoId: String,
     viewModel: HomeViewModel = hiltViewModel(),
     buscarProducaoViewModel: BuscarProducaoViewModel = hiltViewModel(),
-    listaQtViewModel: ListaQtHorariaDaProducaoViewModel = hiltViewModel()
+    listaQtViewModel: ListaQtHorariaDaProducaoViewModel = hiltViewModel(),
+
 ) {
 
     val context = LocalContext.current
@@ -286,12 +289,15 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         // Informações para o final de produção
-                        FimDeProducao(
+                        ControleDoBuffer(
                             onClick = {
                                 navController.navigate(
                                     Route.SimularFimProducaoRoute.criarRota(id = producaoId)
                                 )
-                            }
+                            },
+                            quantidadePendente = pendente,
+                            tipoBarril = producao.barrilNome,
+                            barrilId = producao.barrilId
                         )
                     }
                 }
@@ -414,49 +420,3 @@ fun CardHorario(
         )
     }
 }
-
-@Composable
-fun FimDeProducao(onClick: () -> Unit) {
-    Box {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp))
-                .background(Color.White, RoundedCornerShape(12.dp))
-                // O clickable deve vir antes do padding para a área de toque ser completa
-                .clickable { onClick() }
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            LinhaChaveValor(
-                chave = "Volume do Barril:",
-                valor = "50L",
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            LinhaChaveValor(
-                chave = "Volume necessário:",
-                valor = "458 hl",
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFFFFEBEE), RoundedCornerShape(8.dp))
-                    .padding(vertical = 10.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "VERIFIQUE O BUFFER",
-                    color = Color(0xFFB71C1C),
-                    style = MaterialTheme.typography.bodySmall,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
-    }
-}
-

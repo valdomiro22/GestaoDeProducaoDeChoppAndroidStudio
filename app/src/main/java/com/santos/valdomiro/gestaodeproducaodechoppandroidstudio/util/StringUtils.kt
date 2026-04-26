@@ -15,4 +15,5 @@ object StringUtils {
         val horarioInt = horarioSemPontos.toIntOrNull() ?: 0
         return horarioInt
     }
+
 }
