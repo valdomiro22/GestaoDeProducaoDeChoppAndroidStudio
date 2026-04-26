@@ -31,7 +31,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
@@ -61,7 +60,6 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.componen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.AppDrawer
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.DrawerViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.barril.presentation.screens.buscarbarril.BuscarBarrilViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.domain.entity.ProducaoEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.components.ControleDoBuffer
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.producao.presentation.screens.buscarproducao.BuscarProducaoViewModel
@@ -80,7 +78,7 @@ fun HomeScreen(
     buscarProducaoViewModel: BuscarProducaoViewModel = hiltViewModel(),
     listaQtViewModel: ListaQtHorariaDaProducaoViewModel = hiltViewModel(),
 
-) {
+    ) {
 
     val context = LocalContext.current
     val navController = LocalNavController.current
@@ -141,75 +139,79 @@ fun HomeScreen(
             }
         }
     ) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "Itaipava 50L",
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
+        when {
+            state.isSuccess -> {
+                val producao = (state as? UiState.Success)?.data ?: run {
+                    ErroComponent("Produção não encontrada")
+                    return@ModalNavigationDrawer
+                }
+
+                val pendente = producao.quantidadeProgramada - producao.quantidadeProduzida
+                val msgTopBarr = "${producao.produtoNome} ${producao.barrilNome}"
+
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = {
+                                Text(
+                                    text = msgTopBarr,
+                                    fontWeight = FontWeight.SemiBold,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = TextAlign.Center
+                                )
+                            },
+
+                            // Botão para abrir o Drawer
+                            navigationIcon = {
+                                IconButton(onClick = {
+                                    scope.launch { drawerState.open() }
+                                }) {
+                                    // Troquei o ArrowBack pelo ícone de Menu
+                                    Icon(Icons.Default.Menu, contentDescription = "Abrir Menu")
+                                }
+                            },
+
+
+                            actions = {
+                                IconButton(onClick = { menuExpandido = true }) {
+                                    Icon(
+                                        imageVector = Icons.Default.MoreVert,
+                                        contentDescription = "Mais opções",
+                                        tint = Color.White
+                                    )
+                                }
+
+                                DropdownMenu(
+                                    expanded = menuExpandido,
+                                    onDismissRequest = { menuExpandido = false }
+                                ) {
+                                    DropdownMenuItem(
+                                        text = { Text("Barris") },
+                                        onClick = {
+                                            menuExpandido = false
+                                            navController.navigate(Route.ListaDeBarrisRoute.route)
+                                        }
+                                    )
+                                    DropdownMenuItem(
+                                        text = { Text("Produtos") },
+                                        onClick = {
+                                            menuExpandido = false
+                                            navController.navigate(Route.ListaDeProdutosRoute.route)
+                                        }
+                                    )
+                                }
+                            },
+
+                            windowInsets = WindowInsets(0),
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = Color(0xFF1E5FDB),
+                                titleContentColor = Color.White,
+                                navigationIconContentColor = Color.White
+                            )
                         )
-                    },
-
-                    // Botão para abrir o Drawer
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch { drawerState.open() }
-                        }) {
-                            // Troquei o ArrowBack pelo ícone de Menu
-                            Icon(Icons.Default.Menu, contentDescription = "Abrir Menu")
-                        }
-                    },
-
-
-                    actions = {
-                        IconButton(onClick = { menuExpandido = true }) {
-                            Icon(
-                                imageVector = Icons.Default.MoreVert,
-                                contentDescription = "Mais opções",
-                                tint = Color.White
-                            )
-                        }
-
-                        DropdownMenu(
-                            expanded = menuExpandido,
-                            onDismissRequest = { menuExpandido = false }
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text("Opção 1") },
-                                onClick = {
-                                    menuExpandido = false
-                                    Toast.makeText(context, "Opção 1", Toast.LENGTH_SHORT).show()
-                                }
-                            )
-                            DropdownMenuItem(
-                                text = { Text("Opção 2") },
-                                onClick = {
-                                    menuExpandido = false
-                                    Toast.makeText(context, "Opção 2", Toast.LENGTH_SHORT).show()
-                                }
-                            )
-                        }
-                    },
-
-                    windowInsets = WindowInsets(0),
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color(0xFF1E5FDB),
-                        titleContentColor = Color.White,
-                        navigationIconContentColor = Color.White
-                    )
-                )
-            }
-        ) { innerPadding ->
-            when {
-                state.isSuccess -> {
-                    val producao = (state as? UiState.Success)?.data ?: run {
-                        ErroComponent("Produção não encontrada")
-                        return@Scaffold
                     }
+                ) { innerPadding ->
 
-                    val pendente = producao.quantidadeProgramada - producao.quantidadeProduzida
 
                     Column(
                         modifier = Modifier
@@ -302,25 +304,24 @@ fun HomeScreen(
                     }
                 }
 
-                state.isLoading -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                            .padding(top = 16.dp), contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
+
+            }
+
+            state.isLoading -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 16.dp), contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
                 }
+            }
 
-                state.isError -> {
-                    ErroComponent(
-                        mensagem = (state as? UiState.Error)?.message
-                            ?: "Erro desconhecido ao buscar produção"
-                    )
-                }
-
-
+            state.isError -> {
+                ErroComponent(
+                    mensagem = (state as? UiState.Error)?.message
+                        ?: "Erro desconhecido ao buscar produção"
+                )
             }
 
 
