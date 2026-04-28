@@ -12,11 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
-import androidx.compose.material.icons.automirrored.filled.ArrowLeft
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowLeft
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,7 +44,6 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.produc
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -180,10 +175,8 @@ fun ListaProducoesScreen(
                                 if (showInfoDialog) {
                                     InfoProducaoDialog(
                                         producao = producao,
-                                        onConfirm = {
-                                            Toast.makeText(context, "Ok", Toast.LENGTH_SHORT)
-                                                .show() },
-                                        onDismiss = { showInfoDialog = false },
+                                        onConfirm = { showInfoDialog = false },
+                                        onDismiss = {  },
                                     )
                                 }
                             }

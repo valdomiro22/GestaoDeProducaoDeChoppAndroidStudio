@@ -21,17 +21,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.core.utils.DataHoraUtils
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.domain.entity.GradeEntity
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 import java.time.LocalDate
-import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 @Composable
 fun ItemListaGrade(
     grade: GradeEntity,
+    onDetalheClick: () -> Unit,
     onEditarClick: () -> Unit,
     onDeletarClick: () -> Unit,
     navController: NavHostController,
@@ -80,7 +81,7 @@ fun ItemListaGrade(
             }
 
             Row {
-                TextButton(onClick = onEditarClick) { Text("Detalhes", color = Color.White) }
+                TextButton(onClick = onDetalheClick) { Text("Detalhes", color = Color.White) }
                 TextButton(onClick = onEditarClick) { Text("Editar", color = Color.White) }
                 TextButton(onClick = onDeletarClick) { Text("Deletar", color = Color.White) }
             }
@@ -103,6 +104,7 @@ fun GreetingPreview() {
     ItemListaGrade(
         grade = grade,
         onEditarClick = { Log.d(TAG, "Editar clicado") },
+        onDetalheClick = { Log.d(TAG, "Editar clicado") },
         onDeletarClick = { Log.d(TAG, "Deletar clicado") },
         navController = NavHostController(context = LocalContext.current)
     )

@@ -145,7 +145,7 @@ fun AtualizarProducaoScreen(
                 is UiState.Success -> {
                     DropdownBarril(
                         listaBarris = state.data,
-                        barrilIdAtual = producaoState.produtoId,
+                        barrilIdAtual = producaoState.barrilId,
                         onBarrilSelecionado = atualizarProducaoViewModel::onBarrilChanged
                     )
                 }

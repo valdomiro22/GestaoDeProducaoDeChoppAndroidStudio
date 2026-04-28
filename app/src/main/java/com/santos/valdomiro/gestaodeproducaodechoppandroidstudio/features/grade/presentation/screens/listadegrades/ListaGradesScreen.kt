@@ -1,6 +1,7 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.listadegrades
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -29,7 +30,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +44,7 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.componen
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.AppDrawer
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.domain.entity.GradeEntity
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.components.InfoGradeDialog
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.components.ItemListaGrade
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
@@ -54,6 +59,8 @@ fun ListaGradesScreen(
     val context = LocalContext.current
     val state by viewModel.uiState.collectAsState()
     val navController = LocalNavController.current
+
+    var showInfoDialog by remember { mutableStateOf(false) }
 
     // CONFIGURAÇÃO DO DRAWER
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -174,16 +181,25 @@ fun ListaGradesScreen(
                                         grade = grade,
                                         navController = navController,
                                         onDeletarClick = { viewModel.deleteGrade(grade.id!!) },
+                                        onDetalheClick = {
+                                            showInfoDialog = true
+                                        },
                                         onEditarClick = {
-                                            Log.i(
-                                                TAG,
-                                                "ListaGradesScreen: ID para atualizar: ${grade.id}"
-                                            )
                                             navController.navigate(
                                                 Route.AtualizarGradeRoute.criarRota(grade.id!!)
                                             )
-                                        }
+                                        },
                                     )
+
+                                    if (showInfoDialog) {
+                                        InfoGradeDialog(
+                                            grade = grade,
+                                            onConfirm = {
+                                                Toast.makeText(context, "Ok", Toast.LENGTH_SHORT)
+                                                    .show() },
+                                            onDismiss = { showInfoDialog = false },
+                                        )
+                                    }
                                 }
                             }
                         }
