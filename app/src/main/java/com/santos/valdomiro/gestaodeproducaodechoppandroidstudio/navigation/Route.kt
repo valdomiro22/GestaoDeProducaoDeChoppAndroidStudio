@@ -78,4 +78,9 @@ sealed class Route(
             "simular-fim-producao/$id"  // Uma função ajudante para montar a rota na hora do clique
     }
 
+    data object MainDrawerRoute : Route(
+        route = "main_drawer",
+        title = "Principal"
+    )
+
 }

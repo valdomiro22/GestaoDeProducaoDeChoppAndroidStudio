@@ -115,28 +115,26 @@ fun HomeScreen(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            // Este é o conteúdo que aparece quando o menu lateral abre
-            ModalDrawerSheet {
-                AppDrawer(
-                    selectedRoute = Route.HomeRoute.route, // Rota atual
-                    onItemClick = { rotaClicada ->
-                        scope.launch {
-                            drawerState.close() // Fecha primeiro
-                            navController.navigate(rotaClicada.route) {
-                                // 1. Limpa a pilha de navegação até a tela inicial do app
-                                // Isso evita que o "Back" fique voltando pelas telas do Drawer
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
+            AppDrawer(
+                currentRoute = Route.ListaDeGradesRoute.route,
+                onNavigate = { rotaClicada ->
+                    scope.launch {
+                        drawerState.close()
 
-                                // 2. Evita abrir a mesma tela várias vezes se você clicar no menu repetidamente
-                                launchSingleTop = true
+                        navController.navigate(rotaClicada.route) {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
                             }
+                            launchSingleTop = true
                         }
-                    },
-                    onLogoutClick = { drawerViewModel.deslogar() }
-                )
-            }
+                    }
+                },
+                onCloseDrawer = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                }
+            )
         }
     ) {
         when {

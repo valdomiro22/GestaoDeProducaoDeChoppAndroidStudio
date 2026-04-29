@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.TimePickerDialog
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.AppDrawer
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
@@ -46,10 +47,10 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Rout
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 
-@RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalcularTempoParadaScreen(
+    onOpenDrawer: () -> Unit,
     viewModel: CalcularTempoParadaViewModel = viewModel()
 ) {
     val inicio = viewModel.inicio
@@ -64,30 +65,32 @@ fun CalcularTempoParadaScreen(
     val scope = rememberCoroutineScope()
     val navController = LocalNavController.current
 
+    val currentRoute = navController
+        .currentBackStackEntryAsState()
+        .value
+        ?.destination
+        ?.route
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            // Este é o conteúdo que aparece quando o menu lateral abre
-            ModalDrawerSheet {
-                AppDrawer(
-                    selectedRoute = Route.HomeRoute.route, // Rota atual
-                    onItemClick = { rotaClicada ->
-                        scope.launch {
-                            drawerState.close() // Fecha primeiro
-                            navController.navigate(rotaClicada.route) {
-                                // 1. Limpa a pilha de navegação até a tela inicial do app
-                                // Isso evita que o "Back" fique voltando pelas telas do Drawer
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
+            AppDrawer(
+                currentRoute = currentRoute,
+                onNavigate = { rotaClicada ->
+                    scope.launch {
+                        drawerState.close()
 
-                                // 2. Evita abrir a mesma tela várias vezes se você clicar no menu repetidamente
-                                launchSingleTop = true
-                            }
+                        navController.navigate(rotaClicada.route) {
+                            launchSingleTop = true
                         }
-                    },
-                )
-            }
+                    }
+                },
+                onCloseDrawer = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                }
+            )
         }
     ) {
         Scaffold(
@@ -95,9 +98,9 @@ fun CalcularTempoParadaScreen(
                 TopAppBar(
                     title = { Text("Calculadora de Horas") },
                     navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch { drawerState.open() }
-                        }) {
+                        IconButton(
+                            onClick = { onOpenDrawer() }  // Abre o drawer
+                        ) {
                             // Troquei o ArrowBack pelo ícone de Menu
                             Icon(Icons.Default.Menu, tint = Color.White, contentDescription = "Abrir Menu")
                         }

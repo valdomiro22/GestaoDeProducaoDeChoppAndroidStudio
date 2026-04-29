@@ -1,6 +1,5 @@
 package com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.screens.listadegrades
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +18,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -40,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.components.ErroComponent
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.drawer.AppDrawer
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.common.state.UiState
@@ -48,12 +47,12 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.features.grade.presentation.components.ItemListaGrade
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Route
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.util.TAG
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListaGradesScreen(
+    onOpenDrawer: () -> Unit,
     viewModel: ListaGradesViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -66,34 +65,38 @@ fun ListaGradesScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+
+    val currentRoute = navController
+        .currentBackStackEntryAsState()
+        .value
+        ?.destination
+        ?.route
+
     LaunchedEffect(Unit) {
         viewModel.getAll()
     }
 
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            // Este é o conteúdo que aparece quando o menu lateral abre
-            ModalDrawerSheet {
-                AppDrawer(
-                    selectedRoute = Route.HomeRoute.route, // Rota atual
-                    onItemClick = { rotaClicada ->
-                        scope.launch {
-                            drawerState.close() // Fecha primeiro
-                            navController.navigate(rotaClicada.route) {
-                                // 1. Limpa a pilha de navegação até a tela inicial do app
-                                // Isso evita que o "Back" fique voltando pelas telas do Drawer
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
+            AppDrawer(
+                currentRoute = currentRoute,
+                onNavigate = { rotaClicada ->
+                    scope.launch {
+                        drawerState.close()
 
-                                // 2. Evita abrir a mesma tela várias vezes se você clicar no menu repetidamente
-                                launchSingleTop = true
-                            }
+                        navController.navigate(rotaClicada.route) {
+                            launchSingleTop = true
                         }
-                    },
-                )
-            }
+                    }
+                },
+                onCloseDrawer = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                }
+            )
         }
     ) {
         Scaffold(
@@ -104,11 +107,15 @@ fun ListaGradesScreen(
 
                     // Botão para abrir o Drawer
                     navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch { drawerState.open() }
-                        }) {
+                        IconButton(
+                            onClick = { onOpenDrawer() }  // Abre o drawer
+                        ) {
                             // Troquei o ArrowBack pelo ícone de Menu
-                            Icon(Icons.Default.Menu, tint = Color.White, contentDescription = "Abrir Menu")
+                            Icon(
+                                Icons.Default.Menu,
+                                tint = Color.White,
+                                contentDescription = "Abrir Menu"
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
@@ -196,7 +203,8 @@ fun ListaGradesScreen(
                                             grade = grade,
                                             onConfirm = {
                                                 Toast.makeText(context, "Ok", Toast.LENGTH_SHORT)
-                                                    .show() },
+                                                    .show()
+                                            },
                                             onDismiss = { showInfoDialog = false },
                                         )
                                     }

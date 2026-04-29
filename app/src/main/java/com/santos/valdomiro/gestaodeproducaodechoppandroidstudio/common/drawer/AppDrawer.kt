@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.LocalNavController
@@ -31,13 +33,16 @@ import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.Rout
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDrawer(
-    selectedRoute: String,
-    onItemClick: (Route) -> Unit,
-    onLogoutClick: () -> Unit = {},
+    currentRoute: String?,
+    onNavigate: (Route) -> Unit,
+    onCloseDrawer: () -> Unit,
+    onLogoutClick: (() -> Unit)? = null,
+    drawerViewModel: DrawerViewModel = hiltViewModel()
 ) {
 
     ModalDrawerSheet(
-        modifier = Modifier.fillMaxWidth(0.70f) // O Drawer ocupará 70% da largura da tela
+        modifier = Modifier.fillMaxWidth(0.70f) ,
+        windowInsets = WindowInsets(0)
     ) {
         DrawerHeader()
         HorizontalDivider()
@@ -50,12 +55,25 @@ fun AppDrawer(
         )
 
         drawerItems.forEach { item ->
+            val isSelected = currentRoute == item.route
+
             NavigationDrawerItem(
                 label = { Text(item.title) },
-                selected = item.route == selectedRoute,
-                onClick = { onItemClick(item) },
-                icon = { item.icon?.let { Icon(it, contentDescription = null) } },
-                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                selected = isSelected,
+                onClick = {
+                    onNavigate(item)
+                },
+                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                icon = item.icon?.let {
+                    {
+                        androidx.compose.material3.Icon(
+                            it,
+                            contentDescription = null,
+                            tint = if (isSelected) Color(0xFF00BDA7)
+                            else Color(0xFF1300BD) // Cor personalizada para os ícones do Drawer
+                        )
+                    }
+                }
             )
         }
 
@@ -64,9 +82,9 @@ fun AppDrawer(
         Spacer(modifier = Modifier.height(8.dp))
 
         NavigationDrawerItem(
-            label = { Text("Sair") },
+            label = { Text("Deslogar") },
             selected = false,
-            onClick = onLogoutClick, // Apenas repassa o clique
+            onClick = { drawerViewModel.deslogar() },
             icon = { Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = null) },
             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
         )
@@ -79,15 +97,16 @@ private fun DrawerHeader() {
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.primary)
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 20.dp, vertical = 28.dp)
     ) {
         Text(
             text = "Gestão de Produção",
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onPrimary
         )
 
-        // Opcional: subtítulo
+        Spacer(modifier = Modifier.height(4.dp))
+
         Text(
             text = "Chopp",
             style = MaterialTheme.typography.bodyMedium,

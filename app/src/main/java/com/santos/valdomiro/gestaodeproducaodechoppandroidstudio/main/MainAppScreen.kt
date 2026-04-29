@@ -5,7 +5,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.AppNavigation
+import com.santos.valdomiro.gestaodeproducaodechoppandroidstudio.navigation.AuthGraph
 
 @Composable
 fun MainAppScreen(
@@ -14,7 +14,7 @@ fun MainAppScreen(
     val navController = rememberNavController()
 
     Scaffold { paddingValues ->
-        AppNavigation(
+        AuthGraph(
             navController = navController,
             startDestination = startDestination,
             modifier = Modifier.padding(paddingValues)
